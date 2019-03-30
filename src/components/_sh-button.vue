@@ -1,5 +1,8 @@
 <template>
-  <div class="sh-button" @click="click">
+  <div
+    class="sh-button"
+    :class="{'sh-button--disabled': disabled}"
+    @click="click">
     <span><slot /></span>
   </div>
 </template>
@@ -11,6 +14,9 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 export default class Button extends Vue {
   @Prop({type: Function, default: () => 1})
   private click?: void;
+
+  @Prop({type: Boolean, default: false})
+  private disabled?: boolean;
 }
 </script>
 
@@ -40,6 +46,18 @@ export default class Button extends Vue {
   outline: none;
   -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 
+  &--disabled {
+    background-color: #343434;
+    color: #545454;
+    cursor: initial;
+    box-shadow: none;
+    margin-bottom: 16px;
+
+    span {
+      top: 0 !important;
+    }
+  }
+
   span {
     position: relative;
     top: 2px;
@@ -47,7 +65,7 @@ export default class Button extends Vue {
     user-select: none;
   }
 
-  &:after {
+  &:not(.sh-button--disabled):after {
     content: '';
     display: block;
     height: 100%;
@@ -62,7 +80,7 @@ export default class Button extends Vue {
     box-shadow: 0 6px 0 #434343;
   }
 
-  &:not(.disabled):hover {
+  &:not(.sh-button--disabled):hover {
     span {
       /*transform: translateY(1px);*/
     }
@@ -72,7 +90,7 @@ export default class Button extends Vue {
     }
   }
 
-  &:not(.disabled):active {
+  &:not(.sh-button--disabled):active {
     span {
       transform: translateY(3px);
     }
