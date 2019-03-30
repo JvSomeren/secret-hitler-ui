@@ -11,9 +11,15 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 @Component
 export default class Back extends Vue {
   @Prop({type: String, default: '< BACK'})
-  private text: string;
+  private text?: string;
+  @Prop({type: Boolean, default: false})
+  private gotoHome?: boolean;
 
   private _click() {
+    if (this.gotoHome) {
+      return this.$router.replace({ name: 'home' });
+    }
+
     this.$router.back();
   }
 }
@@ -22,6 +28,7 @@ export default class Back extends Vue {
 <style scoped lang="scss">
   .sh-back {
     position: absolute;
+    z-index: 999;
     top: 0;
     left: 0;
 
