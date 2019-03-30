@@ -48,7 +48,7 @@ export default class Button extends Vue {
 
   &--disabled {
     background-color: #343434;
-    color: #545454;
+    color: #7D7D7D;
     cursor: initial;
     box-shadow: none;
     margin-bottom: 16px;
