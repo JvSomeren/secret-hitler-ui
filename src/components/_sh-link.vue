@@ -1,7 +1,7 @@
 <template>
   <ShButton
     v-if="to"
-    :click="!disabled ? _click : () => 1"
+    @click.native="clickHandler(_click)"
     :disabled="disabled">
     <slot />
   </ShButton>
@@ -36,6 +36,10 @@ export default class Link extends Vue {
 
   @Prop({type: Boolean, default: false})
   private allowInsecure?: boolean;
+
+  private clickHandler(func: any, ...args: any[]) {
+    if (!this.disabled) func.apply(null, ...args.slice(1));
+  }
 
   private _click() {
     this.$router.push(this.to || '');

@@ -1,8 +1,7 @@
 <template>
   <div
     class="sh-button"
-    :class="{'sh-button--disabled': disabled}"
-    @click="click">
+    :class="{'sh-button--disabled': disabled}">
     <span><slot /></span>
   </div>
 </template>
@@ -12,9 +11,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 
 @Component
 export default class Button extends Vue {
-  @Prop({type: Function, default: () => 1})
-  private click?: void;
-
   @Prop({type: Boolean, default: false})
   private disabled?: boolean;
 }
