@@ -24,7 +24,7 @@ export default class App extends Vue {
 
   private created() {
     // Listen for swUpdated event and display refresh snackbar as required.
-    document.addEventListener('swUpdated', this.showRefreshUI, { once: true });
+    document.addEventListener('swUpdated', this.showUpdateExists, { once: true });
 
     // Refresh all open app tabs when a new service worker is installed.
     navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -34,15 +34,13 @@ export default class App extends Vue {
     });
   }
 
-  private showRefreshUI(e: any) {
+  private showUpdateExists(e: any) {
     this.registration = e.detail;
     this.updateExists = true;
   }
 
   private refreshApp() {
     this.updateExists = false;
-
-    console.log(this.registration);
 
     if (!this.registration || !this.registration.waiting) return;
 

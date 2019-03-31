@@ -42,7 +42,16 @@ export default class Link extends Vue {
   }
 
   private _click() {
-    this.$router.push(this.to || '');
+    let to: string | object = '';
+
+    if (typeof this.to === 'object') to = this.to;
+    else if (typeof this.to === 'string') {
+      // check if `to` is a path or a name
+      if (/^\/\w+/.test(this.to)) to = {path: this.to};
+      else to = {name: this.to};
+    }
+
+    this.$router.push(to);
   }
 
   private validateProps() {
@@ -52,7 +61,7 @@ export default class Link extends Vue {
       // Check for non-external URL in href.
       if (!/^\w+:/.test(this.href)) {
         return console.warn(
-          `Invalid <BaseLink> href: ${
+          `Invalid <ShLink> href: ${
             this.href
             }.\nIf you're trying to link to a local URL, provide at least a name or to`,
         );
@@ -60,7 +69,7 @@ export default class Link extends Vue {
       // Check for insecure URL in href.
       if (!this.allowInsecure && !/^(https|mailto|tel):/.test(this.href)) {
         return console.warn(
-          `Insecure <BaseLink> href: ${
+          `Insecure <ShLink> href: ${
             this.href
             }.\nWhen linking to external sites, always prefer https URLs.
             If this site does not offer SSL, explicitly add the allowInsecure attribute on <ShLink>.`,

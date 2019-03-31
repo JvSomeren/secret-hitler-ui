@@ -23,9 +23,5 @@ export default class Home extends Vue {}
 <style scoped lang="scss">
 .logo {
   height: 100px;
-
-  #letters {
-    fill: #F2654B;
-  }
 }
 </style>

@@ -16,9 +16,7 @@ export default class Back extends Vue {
   private gotoHome?: boolean;
 
   private _click() {
-    if (this.gotoHome) {
-      return this.$router.replace({ name: 'home' });
-    }
+    if (this.gotoHome) return this.$router.replace({ name: 'home' });
 
     this.$router.back();
   }

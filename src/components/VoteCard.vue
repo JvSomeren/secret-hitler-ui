@@ -1,7 +1,9 @@
 <template>
   <div class="sh-card"
-    :class="{ 'sh-card-ja': ja, 'sh-card-nein': nein }">
-    <div class="sh-card-inner">
+    :class="{ 'sh-card-ja': ja, 'sh-card-nein': nein, 'sh-card--active': active }">
+    <div
+      class="sh-card-inner"
+      @click="active = !active">
       <div class="sh-card-front">
         <div class="sh-card-inner-border">
           <Ja v-if="ja" id="sh-ja" />
@@ -36,6 +38,8 @@ export default class VoteCard extends Vue {
   private ja?: boolean;
   @Prop({type: Boolean, default: false})
   private nein?: boolean;
+
+  private active = false;
 }
 </script>
 
@@ -49,7 +53,7 @@ export default class VoteCard extends Vue {
     padding: 8px 16px;
 
 
-    &:hover {
+    &--active {
       z-index: 1;
 
       &.sh-card-ja .sh-card-inner {

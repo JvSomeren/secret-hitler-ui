@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Snackbar extends Vue {
@@ -67,7 +67,7 @@ export default class Snackbar extends Vue {
           null,
           2,
         )}\n\nEither an \`top\` or an \`bottom\` can be passed, not both.`,
-      )
+      );
     }
     if (this.left && this.right) {
       return console.warn(
@@ -76,7 +76,7 @@ export default class Snackbar extends Vue {
           null,
           2,
         )}\n\nEither an \`left\` or an \`right\` can be passed, not both.`,
-      )
+      );
     }
   }
 
@@ -85,8 +85,8 @@ export default class Snackbar extends Vue {
 
     if (this.isActive && this.timeout) {
       this.activeTimeout = window.setTimeout(() => {
-        this.isActive = false
-      }, this.timeout)
+        this.isActive = false;
+      }, this.timeout);
     }
   }
 
