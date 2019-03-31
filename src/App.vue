@@ -1,8 +1,55 @@
 <template>
   <main id="app">
+    <ShSnackbar
+      v-if="updateExists"
+      text="New version available!"
+      bottom right>
+      <span
+        @click="refreshApp">Refresh</span>
+    </ShSnackbar>
+
     <router-view />
   </main>
 </template>
+
+<script lang="ts">
+
+import {Component, Vue} from 'vue-property-decorator';
+
+@Component
+export default class App extends Vue {
+  private updateExists = false;
+  private refreshing = false;
+  private registration: ServiceWorkerRegistration | null = null;
+
+  private created() {
+    // Listen for swUpdated event and display refresh snackbar as required.
+    document.addEventListener('swUpdated', this.showRefreshUI, { once: true });
+
+    // Refresh all open app tabs when a new service worker is installed.
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (this.refreshing) return;
+      this.refreshing = true;
+      window.location.reload();
+    });
+  }
+
+  private showRefreshUI(e: any) {
+    this.registration = e.detail;
+    this.updateExists = true;
+  }
+
+  private refreshApp() {
+    this.updateExists = false;
+
+    console.log(this.registration);
+
+    if (!this.registration || !this.registration.waiting) return;
+
+    this.registration.waiting.postMessage('skipWaiting');
+  }
+}
+</script>
 
 <style lang="scss">
 @import 'normalize-scss';
