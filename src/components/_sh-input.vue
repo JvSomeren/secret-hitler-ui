@@ -4,6 +4,7 @@
     class="sh-input"
     :class="{'sh-input--disabled': disabled}"
     :placeholder="placeholder"
+    v-bind:value="value"
     v-on="inputListeners">
 </template>
 
@@ -18,7 +19,7 @@ export default class Input extends Vue {
   @Prop({type: String, default: ''})
   private placeholder?: string;
 
-  @Prop({default: '1'})
+  @Prop({default: ''})
   private value?: any;
 
   get inputListeners() {
