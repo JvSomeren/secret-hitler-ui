@@ -1,6 +1,6 @@
 <template>
   <section>
-    <ShLink to="standalone-lobby">Standalone</ShLink>
+    <ShLink to="standalone">Standalone</ShLink>
 
     <h2>ONLINE</h2>
     <ShLink to="/" disabled>Host game</ShLink>

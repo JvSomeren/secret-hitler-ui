@@ -1,14 +1,11 @@
+import {StandaloneGuard} from './guards';
+
 const main = [
   {
     path: '/',
     component: () => import(/* webpackChunkName: "base" */ './views/Home.vue'),
     children: [
       { path: '', name: 'home', component: () => import(/* webpackChunkName: "base" */ './views/Home/Menu.vue') },
-      {
-        path: 'standalone-lobby',
-        name: 'standalone-lobby',
-        component: () => import(/* webpackChunkName: "standalone" */ './views/Home/StandaloneLobby.vue'),
-      },
       {
         path: 'rules',
         name: 'rules',
@@ -18,8 +15,28 @@ const main = [
   },
   {
     path: '/vote-cards',
-    name: 'vote-cards',
+    name: 'voteCards',
     component: () => import(/* webpackChunkName: "standalone" */ './views/VoteCards.vue'),
+  },
+  {
+    path: '/standalone',
+    name: 'standalone',
+    beforeEnter: StandaloneGuard,
+    component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone.vue'),
+    children: [
+      {
+        path: 'player-count',
+        name: 'standalonePlayerCount',
+        beforeEnter: StandaloneGuard,
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerCount.vue'),
+      },
+      {
+        path: 'player-names',
+        name: 'standalonePlayerNames',
+        beforeEnter: StandaloneGuard,
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerNames.vue'),
+      },
+    ],
   },
 ];
 
