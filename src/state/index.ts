@@ -15,10 +15,13 @@ const vuexLocal = new VuexPersistence({
 const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
+    isOnline: true,
     version: '0.1.0',
   },
   mutations: {
     RESTORE_MUTATION: vuexLocal.RESTORE_MUTATION,
+    GO_ONLINE: (state) => state.isOnline = true,
+    GO_OFFLINE: (state) => state.isOnline = false,
   },
   modules: {
     standalone,
