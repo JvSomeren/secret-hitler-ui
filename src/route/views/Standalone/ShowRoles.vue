@@ -1,24 +1,32 @@
 <template>
   <section class="main">
-    <template v-if="state === ShowRoleState.PASS_DEVICE">
-      <h2>Pass the device to</h2>
-      <h2>{{ currentPlayer.name }}</h2>
-    </template>
+    <div class="sh-player__header">
+      <template v-if="state === ShowRoleState.PASS_DEVICE">
+        <h3 class="sh-helper-top">Pass the device to</h3>
+        <h1 class="sh-player--name">{{ currentPlayer.name }}</h1>
+      </template>
 
-    <template v-else-if="state === ShowRoleState.PLAYER_HAS_DEVICE">
-      <h2>{{ currentPlayer.name }}</h2>
-      <h2>press the button below to view your role</h2>
-    </template>
+      <template v-else-if="state === ShowRoleState.PLAYER_HAS_DEVICE">
+        <h1 class="sh-player--name">{{ currentPlayer.name }}</h1>
+        <h3>press the button below to view your role</h3>
+      </template>
 
-    <template v-else-if="state === ShowRoleState.SHOWING_ROLE">
-      <h2>{{ currentPlayer.name }}</h2>
-      <h2>your role is</h2>
-    </template>
+      <template v-else-if="state === ShowRoleState.SHOWING_ROLE">
+        <h1 class="sh-player--name">{{ currentPlayer.name }}</h1>
+        <h3>your role is</h3>
+      </template>
+    </div>
 
     <template
       v-if="state === ShowRoleState.PLAYER_HAS_DEVICE
         || state === ShowRoleState.SHOWING_ROLE">
-      <ShCard light :flipped="flipped">
+      <ShCard
+        light
+        :class="{
+          'sh-card-liberal': currentPlayer.role.partyMembership === PartyMembership.Liberal,
+          'sh-card-fascist': currentPlayer.role.partyMembership === PartyMembership.Fascist,
+        }"
+        :flipped="flipped">
         <template v-slot:default>
           <Decal />
         </template>
@@ -41,7 +49,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {namespace} from 'vuex-class';
-import {Player, SecretRole} from '@/state/modules/Standalone/types';
+import {Player, SecretRole, PartyMembership} from '@/state/modules/Standalone/types';
 import Decal from '@/assets/decal.svg';
 import Liberal from '@/assets/liberal.svg';
 import Fascist from '@/assets/fascist.svg';
@@ -68,6 +76,7 @@ export default class StandaloneShowRoles extends Vue {
   private players!: Player[];
 
   private SecretRole = SecretRole;
+  private PartyMembership = PartyMembership;
   private ShowRoleState = ShowRoleState;
 
   private state = ShowRoleState.PASS_DEVICE;
@@ -128,7 +137,49 @@ export default class StandaloneShowRoles extends Vue {
 </script>
 
 <style scoped lang="scss">
-  /deep/ .sh-card.sh-card--active .sh-card-inner {
-    transform: rotateY(180deg);
+  $liberal-blue: #3c4f65;
+  $fascist-red: #f2654b;
+
+  .sh-helper-top {
+    margin-top: 10px;
+  }
+
+  .sh-player__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    min-height: 120px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    .sh-player--name {
+      text-transform: initial;
+    }
+  }
+
+  /deep/ .sh-card {
+    margin-bottom: 20px;
+
+    &.sh-card--active .sh-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .sh-card-back svg {
+      width: calc(100%);
+      height: unset;
+      padding: 12px;
+    }
+
+    &.sh-card-liberal .sh-card-back svg {
+      fill: $liberal-blue;
+    }
+
+    &.sh-card-fascist .sh-card-back svg {
+      fill: $fascist-red;
+    }
   }
 </style>

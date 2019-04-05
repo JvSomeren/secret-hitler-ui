@@ -119,7 +119,9 @@ body {
   justify-content: flex-start;
 }
 
-h2 {
+h1,
+h2,
+h3 {
   font-family: 'Futura', sans-serif;;
   font-weight: 700;
   color: #434343;
