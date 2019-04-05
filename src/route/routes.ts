@@ -26,13 +26,13 @@ const main = [
     children: [
       {
         path: 'player-count',
-        name: 'standalonePlayerCount',
+        name: 'standalone:playerCount',
         beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerCount.vue'),
       },
       {
         path: 'player-names',
-        name: 'standalonePlayerNames',
+        name: 'standalone:playerNames',
         beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerNames.vue'),
       },

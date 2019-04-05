@@ -45,7 +45,7 @@ export default class StandalonePlayerCount extends Vue {
   private _click(n: number) {
     this.updatePlayerCount(n);
 
-    this.$router.push({ name: 'standalonePlayerNames' });
+    this.$router.push({ name: 'standalone:playerNames' });
   }
 }
 </script>
