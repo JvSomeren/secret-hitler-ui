@@ -36,6 +36,12 @@ const main = [
         beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerNames.vue'),
       },
+      {
+        path: 'roles',
+        name: 'standalone:showRoles',
+        beforeEnter: StandaloneGuard,
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ShowRoles.vue'),
+      },
     ],
   },
 ];

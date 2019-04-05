@@ -13,6 +13,8 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 export default class Button extends Vue {
   @Prop({type: Boolean, default: false})
   private disabled?: boolean;
+
+  // @TODO expose listeners just as with input
 }
 </script>
 
@@ -47,7 +49,6 @@ export default class Button extends Vue {
     color: #7D7D7D;
     cursor: initial;
     box-shadow: none;
-    margin-bottom: 16px;
 
     span {
       top: 0 !important;
