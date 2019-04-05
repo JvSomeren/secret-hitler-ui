@@ -53,7 +53,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {namespace} from 'vuex-class';
-import {Player, SecretRole, PartyMembership} from '@/state/modules/Standalone/types';
+import {Player, SecretRole, PartyMembership, GameStatus} from '@/state/modules/Standalone/types';
 import Decal from '@/assets/decal.svg';
 import Liberal from '@/assets/liberal.svg';
 import Fascist from '@/assets/fascist.svg';
@@ -122,7 +122,10 @@ export default class StandaloneShowRoles extends Vue {
             this.state = ShowRoleState.PASS_DEVICE;
             this.currentPlayer = this.players[this.currentPlayerId++];
           } else {
-            this.navigate('standalone:preGame');
+            this.navigate({
+              routeName: 'standalone:preGame',
+              status: GameStatus.PRE_GAME,
+            });
           }
         }, 400 );
         break;

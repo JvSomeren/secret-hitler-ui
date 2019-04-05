@@ -54,7 +54,8 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     // do things
   },
 
-  navigate({commit}, routeName: string) {
+  navigate({commit}, {routeName, status = null}: {routeName: string, status: GameStatus | null}) {
+    if (status !== null) commit(standaloneMutations.updateStatus, status);
     commit(standaloneMutations.updateView, routeName);
     router.push({name: routeName});
   },
@@ -82,7 +83,9 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       createPlayerRolesArray(liberalFascistDistribution[state.playerCount]));
 
     // navigate to show roles view
-    commit(standaloneMutations.updateStatus, GameStatus.SHOWING_ROLES);
-    dispatch('navigate', 'standalone:showRoles');
+    dispatch('navigate', {
+      routeName: 'standalone:showRoles',
+      status: GameStatus.SHOWING_ROLES,
+    });
   },
 };

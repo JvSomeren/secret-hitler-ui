@@ -1,11 +1,13 @@
 import {MutationTree} from 'vuex';
 import {Card, GameStatus, Role, StandaloneState} from './types';
+import {state as initialState} from './index';
 
 import {updateField} from 'vuex-map-fields';
 
 const TYPE_PREFIX = 'STANDALONE';
 
 export const standaloneMutations = {
+  resetState: `RESET_STATE`,
   updateStatus: `UPDATE_STATUS`,
   updateView: `UPDATE_VIEW`,
   updatePlayerCount: `UPDATE_PLAYER_COUNT`,
@@ -17,6 +19,11 @@ export const standaloneMutations = {
 
 export const mutations: MutationTree<StandaloneState> = {
   updateField,
+
+  [standaloneMutations.resetState](state) {
+    const {playerCount, players, ...newState} = initialState();
+    Object.assign(state, newState);
+  },
 
   [standaloneMutations.updateStatus](state, status: GameStatus) {
     state.status = status;

@@ -20,20 +20,22 @@ const createPlayersArray = (n: number = 10): Player[] => {
   return arr;
 };
 
-export const state: StandaloneState = {
-  status: GameStatus.STOPPED,
-  view: 'standalone:playerCount',
-  game: {
-    drawPile: [],
-    discardPile: [],
-    liberalPolicies: 0,
-    fascistPolicies: 0,
-    president: null,
-    chancellor: null,
-    failedElections: 0,
-  },
-  playerCount: 0,
-  players: createPlayersArray(),
+export const state = (): StandaloneState => {
+  return {
+    status: GameStatus.STOPPED,
+    view: 'standalone:playerCount',
+    game: {
+      drawPile: [],
+      discardPile: [],
+      liberalPolicies: 0,
+      fascistPolicies: 0,
+      president: null,
+      chancellor: null,
+      failedElections: 0,
+    },
+    playerCount: 0,
+    players: createPlayersArray(),
+  };
 };
 
 const namespaced: boolean = true;
