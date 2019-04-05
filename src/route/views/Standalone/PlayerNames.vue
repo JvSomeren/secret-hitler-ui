@@ -14,12 +14,15 @@
         <ShInput
           v-for="n in playerCount"
           :key="n"
-          v-model="players[n].name"
+          v-model="players[n-1].name"
+          :value="players[n-1].name"
           :placeholder="`Player ${n}`"
-          @keyup.native.enter="focusNextElement" />
+          @keyup.enter="focusNextElement" />
       </div>
 
-      <ShButton class="sh-bottom">Go!</ShButton>
+      <ShButton
+        class="sh-bottom"
+        @click.native="initRound">Go!</ShButton>
     </section>
   </div>
 </template>
@@ -40,11 +43,10 @@ export default class StandalonePlayerNames extends Vue {
   @standalone.State('playerCount')
   private playerCount!: number;
 
-  @standalone.State('players')
-  private players!: Player[];
+  @standalone.Action('initRound')
+  private initRound!: () => void;
 
   private showScrollHint = false;
-  private test = [{name: ''}];
 
   private focusNextElement(e: KeyboardEvent) {
     const {nextSibling}: { nextSibling: any | HTMLInputElement } = e.target! as HTMLInputElement;

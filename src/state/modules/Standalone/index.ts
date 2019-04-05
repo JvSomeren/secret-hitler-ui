@@ -1,11 +1,11 @@
 import {Module} from 'vuex';
-import {Player, StandaloneState} from './types';
+import {GameStatus, Player, StandaloneState} from './types';
 import {RootState} from '../../types';
 import {actions} from './actions';
 import {getters} from './getters';
 import {mutations} from './mutations';
 
-const createPlayersArray = (n: number = 10) => {
+const createPlayersArray = (n: number = 10): Player[] => {
   const defaultPlayer = {
     id: 0,
     name: '',
@@ -21,7 +21,17 @@ const createPlayersArray = (n: number = 10) => {
 };
 
 export const state: StandaloneState = {
-  status: 'stopped',
+  status: GameStatus.STOPPED,
+  view: 'standalone:playerCount',
+  game: {
+    drawPile: [],
+    discardPile: [],
+    liberalPolicies: 0,
+    fascistPolicies: 0,
+    president: null,
+    chancellor: null,
+    failedElections: 0,
+  },
   playerCount: 0,
   players: createPlayersArray(),
 };
