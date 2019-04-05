@@ -13,12 +13,16 @@
 </template>
 
 <script lang="ts">
-
 import {Component, Vue} from 'vue-property-decorator';
-import {Mutation} from 'vuex-class';
+import {Mutation, State} from 'vuex-class';
+import semver, {SemVerTypes} from '@/utils/semver';
+import {state} from '@/state';
 
 @Component
 export default class App extends Vue {
+  @State('version')
+  private version!: string;
+
   @Mutation('GO_ONLINE')
   private goOnline!: any;
 
@@ -57,6 +61,8 @@ export default class App extends Vue {
     // Refresh all open app tabs when a new service worker is installed.
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (this.refreshing) return;
+      // Check if we need to clear cache because of cache breaking incremental version
+      if (semver(SemVerTypes.MINOR, state().version, this.version)) window.localStorage.removeItem('vuex');
       this.refreshing = true;
       window.location.reload();
     });
