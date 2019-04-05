@@ -88,6 +88,7 @@ export default class VoteCard extends Vue {
     border: 4px dotted $sh-card-bg;
     width: calc(100% - 16px);
     height: calc(100% - 16px);
+    backface-visibility: inherit;
   }
 
   .sh-card-front,
@@ -104,7 +105,7 @@ export default class VoteCard extends Vue {
   }
 
   .sh-card-back {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) translateZ(1px);
   }
 
   .sh-card-nein {
@@ -134,6 +135,7 @@ export default class VoteCard extends Vue {
 
   #sh-ja,
   #sh-nein {
+    backface-visibility: inherit;
     transform: rotate(90deg);
   }
 </style>
