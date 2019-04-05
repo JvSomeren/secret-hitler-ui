@@ -1,8 +1,6 @@
 <template>
   <div>
-    <section class="header header-logo">
-      <LogoVertical class="logo" />
-    </section>
+    <ShHeaderLogo />
 
     <section class="main sh-lobby-player-names">
       <ShBack />
@@ -28,15 +26,14 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
-import LogoVertical from '@/assets/logo-vertical.svg';
 import {namespace} from 'vuex-class';
-import {Player} from '../../../state/modules/Standalone/types';
+import {mapMultiRowFields} from 'vuex-map-fields';
 
 const standalone = namespace('standalone');
 
 @Component({
-  components: {
-    LogoVertical,
+  computed: {
+    ...mapMultiRowFields(`standalone`, ['players']),
   },
 })
 export default class StandalonePlayerNames extends Vue {
@@ -72,10 +69,6 @@ export default class StandalonePlayerNames extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .header-logo .logo {
-    height: 100px;
-  }
-
   .sh-scroll-hint {
     position: absolute;
     right: -15px;

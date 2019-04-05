@@ -1,8 +1,6 @@
 <template>
   <div class="root-container">
-    <section class="header header-logo">
-      <LogoVertical class="logo" />
-    </section>
+    <ShHeaderLogo />
 
     <router-view class="main"></router-view>
   </div>
@@ -21,7 +19,4 @@ export default class Home extends Vue {}
 </script>
 
 <style scoped lang="scss">
-.logo {
-  height: 100px;
-}
 </style>

@@ -4,13 +4,8 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
-import LogoVertical from '@/assets/logo-vertical.svg';
 
-@Component({
-  components: {
-    LogoVertical,
-  },
-})
+@Component({})
 export default class Standalone extends Vue {}
 </script>
 

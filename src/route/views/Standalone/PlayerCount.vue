@@ -1,8 +1,6 @@
 <template>
   <div>
-    <section class="header header-logo">
-      <LogoVertical class="logo" />
-    </section>
+    <ShHeaderLogo />
 
     <section class="main sh-lobby-player-count">
       <ShBack />
@@ -53,10 +51,6 @@ export default class StandalonePlayerCount extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .header-logo .logo {
-    height: 100px;
-  }
-
   .main {
     justify-content: space-between;
   }
