@@ -58,6 +58,7 @@ export default class App extends Vue {
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (this.refreshing) return;
       this.refreshing = true;
+      window.localStorage.removeItem('vuex');
       window.location.reload();
     });
   }
