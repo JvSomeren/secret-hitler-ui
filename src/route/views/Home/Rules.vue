@@ -3,7 +3,13 @@
     <ShBack />
 
     <div class="sh-rules">
-      <!--<h3>ELECTION</h3>-->
+      <h3>OBJECTIVE</h3>
+      <h3>SET UP</h3>
+      <h2>GAMEPLAY</h2>
+      <h3>ELECTION</h3>
+      <h3>LEGISLATIVE SESSION</h3>
+      <h3>PRESIDENTIAL POWERS</h3>
+      <h3>VETO POWER</h3>
       <!--<ol>-->
         <!--<li>Pass the Presidential Candidacy</li>-->
         <!--<li>Nominate a Chancellor</li>-->

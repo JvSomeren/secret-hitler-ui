@@ -1,6 +1,6 @@
 <template>
   <section>
-    <ShLink to="standalone">Standalone</ShLink>
+    <ShLink to="standalone">Single Device</ShLink>
 
     <h2>ONLINE</h2>
     <ShLink to="/" :disabled="!isOnline || true">Host game</ShLink>

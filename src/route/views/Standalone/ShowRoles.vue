@@ -1,5 +1,9 @@
 <template>
   <section class="main">
+    <ShBack gotoHome clearCache>
+      X Exit
+    </ShBack>
+
     <div class="sh-player__header">
       <template v-if="state === ShowRoleState.PASS_DEVICE">
         <h3 class="sh-helper-top">Pass the device to</h3>
@@ -13,7 +17,6 @@
 
       <template v-else-if="state === ShowRoleState.SHOWING_ROLE">
         <h1 class="sh-player--name">{{ currentPlayer.name }}</h1>
-        <h3>your role is</h3>
       </template>
     </div>
 
@@ -32,6 +35,7 @@
         </template>
 
         <template v-slot:back>
+          <h3>YOUR SECRET ROLE</h3>
           <Liberal v-if="currentPlayer.role.secretRole === SecretRole.Liberal" />
           <Fascist v-else-if="currentPlayer.role.secretRole === SecretRole.Fascist" />
           <Hitler v-else-if="currentPlayer.role.secretRole === SecretRole.Hitler" />
@@ -75,6 +79,9 @@ export default class StandaloneShowRoles extends Vue {
   @standalone.Getter('allPlayers')
   private players!: Player[];
 
+  @standalone.Action('navigate')
+  private navigate!: any;
+
   private SecretRole = SecretRole;
   private PartyMembership = PartyMembership;
   private ShowRoleState = ShowRoleState;
@@ -106,18 +113,18 @@ export default class StandaloneShowRoles extends Vue {
         this.state = ShowRoleState.SHOWING_ROLE;
         break;
       case ShowRoleState.SHOWING_ROLE:
-        if (this.currentPlayerId < this.players.length) {
-          this.button.disabled = true;
-          this.flipped = false;
-          setTimeout(() => {
+        this.button.disabled = true;
+        this.flipped = false;
+        setTimeout(() => {
+          if (this.currentPlayerId < this.players.length) {
             this.timeoutDisable(1000);
             this.button.text = 'Ok!';
             this.state = ShowRoleState.PASS_DEVICE;
             this.currentPlayer = this.players[this.currentPlayerId++];
-          }, 400 );
-        } else {
-          console.warn('goto game start');
-        }
+          } else {
+            this.navigate('standalone:preGame');
+          }
+        }, 400 );
         break;
     }
   }
@@ -137,7 +144,7 @@ export default class StandaloneShowRoles extends Vue {
 </script>
 
 <style scoped lang="scss">
-  $liberal-blue: #3c4f65;
+  $liberal-blue: #698176;
   $fascist-red: #f2654b;
 
   .sh-helper-top {
@@ -169,7 +176,7 @@ export default class StandaloneShowRoles extends Vue {
     }
 
     .sh-card-back svg {
-      width: calc(100%);
+      width: calc(90%);
       height: unset;
       padding: 12px;
     }

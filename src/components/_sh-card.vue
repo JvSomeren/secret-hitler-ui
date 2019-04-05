@@ -92,6 +92,7 @@ export default class Card extends Vue {
 
   .sh-card-inner-border {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 

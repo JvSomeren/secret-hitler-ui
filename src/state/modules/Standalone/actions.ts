@@ -54,7 +54,12 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     // do things
   },
 
-  initRound({state, commit}) {
+  navigate({commit}, routeName: string) {
+    commit(standaloneMutations.updateView, routeName);
+    router.push({name: routeName});
+  },
+
+  initRound({state, commit, dispatch}) {
     commit(standaloneMutations.updateStatus, GameStatus.INITIALIZING);
 
     // set missing player names
@@ -78,8 +83,6 @@ export const actions: ActionTree<StandaloneState, RootState> = {
 
     // navigate to show roles view
     commit(standaloneMutations.updateStatus, GameStatus.SHOWING_ROLES);
-    const nextView = 'standalone:showRoles';
-    commit(standaloneMutations.updateView, nextView);
-    router.push({name: nextView});
+    dispatch('navigate', 'standalone:showRoles');
   },
 };
