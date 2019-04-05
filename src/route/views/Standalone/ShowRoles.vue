@@ -1,6 +1,6 @@
 <template>
   <section class="main">
-    <ShBack gotoHome clearCache>
+    <ShBack endPrompt>
       X Exit
     </ShBack>
 
