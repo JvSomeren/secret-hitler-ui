@@ -129,6 +129,12 @@ h3 {
   margin-bottom: 8px;
 }
 
+.sh-row {
+  display: flex;
+  justify-content: space-around;
+  width: calc(100% - 12px);
+}
+
 .sh-scrollable-vert {
   flex: 1;
   align-self: stretch;

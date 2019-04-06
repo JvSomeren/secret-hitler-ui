@@ -45,6 +45,14 @@ export const getters: GetterTree<StandaloneState, RootState> = {
     });
   },
 
+  government(state): Government | boolean {
+    const { game: { president, chancellor } } = state;
+
+    if (president === null || chancellor === null) return false;
+
+    return { president, chancellor };
+  },
+
   lastGovernment(state): Government | boolean {
     const { lastGovernment } = state.game;
 

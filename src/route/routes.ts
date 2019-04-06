@@ -54,6 +54,11 @@ const main = [
         name: 'standalone:nominateChancellor',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/NominateChancellor.vue'),
       },
+      {
+        path: 'vote-on-government',
+        name: 'standalone:voteOnGovernment',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/VoteOnGovernment.vue'),
+      },
     ],
   },
 ];
