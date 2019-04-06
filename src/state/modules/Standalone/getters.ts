@@ -1,5 +1,5 @@
 import {GetterTree} from 'vuex';
-import {Government, Player, StandaloneState} from './types';
+import {Card, Government, Player, StandaloneState} from './types';
 import {RootState} from '../../types';
 import {getField} from 'vuex-map-fields';
 
@@ -61,5 +61,17 @@ export const getters: GetterTree<StandaloneState, RootState> = {
     if (lastGovernment.president === null) return false;
 
     return lastGovernment;
+  },
+
+  drawnPolicies(state): Card[] {
+    const { drawnPolicies } = state.game;
+
+    return drawnPolicies;
+  },
+
+  vetoEnabled(state): boolean {
+    const { fascistPolicies } = state.game;
+
+    return fascistPolicies.length >= 5;
   },
 };

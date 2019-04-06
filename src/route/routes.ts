@@ -64,6 +64,11 @@ const main = [
         name: 'standalone:presidentDiscardPolicy',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PresidentDiscardPolicy.vue'),
       },
+      {
+        path: 'chancellor-discard-policy',
+        name: 'standalone:chancellorDiscardPolicy',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ChancellorDiscardPolicy.vue'),
+      },
     ],
   },
 ];

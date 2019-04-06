@@ -1,9 +1,10 @@
 import {ActionTree} from 'vuex';
 import {
-  Card,
+  Card, Game,
   GameStatus,
   liberalFascistDistribution,
-  PartyMembership, Player,
+  PartyMembership,
+  Player,
   Policy,
   Role,
   SecretRole,
@@ -100,14 +101,14 @@ export const actions: ActionTree<StandaloneState, RootState> = {
 
   governmentVotePassed({state, commit, dispatch}) {
     // 3 or more fascist policies? is chancellor hitler
-    if (state.game.fascistPolicies >= 3
+    if (state.game.fascistPolicies.length >= 3
       && state.game.chancellor!.role!.secretRole === SecretRole.Hitler) {
-      console.warn('Chnacellor is Hitler'); // @TODO game end
+      // @TODO game end [fas win]
+      console.warn('[END] Hitler is chancellor');
 
       return;
     }
 
-    commit(standaloneMutations.resetFailedElectionsTracker);
     dispatch('navigate', {
       routeName: 'standalone:presidentDiscardPolicy',
       status: GameStatus.PRESIDENT_DISCARDING_POLICY,
@@ -117,14 +118,16 @@ export const actions: ActionTree<StandaloneState, RootState> = {
   governmentVoteFailed({state, commit, dispatch}) {
     // increase failed election tracker separate function
     commit(standaloneMutations.increaseFailedElectionsTracker);
-    // 3 failed elections?
+
     if (state.game.failedElections === 3) {
-      console.warn('reveal top policy card'); // @TODO election tracker
+      commit(standaloneMutations.updateStatus, GameStatus.ENACT_TOP_POLICY);
+      commit(standaloneMutations.drawCards, 1);
+      dispatch('resetLastGovernment');
       commit(standaloneMutations.resetFailedElectionsTracker);
     }
-    // move presidency
+
     dispatch('passPresidency');
-    // navigate to nominateChancelor
+
     dispatch('navigate', {
       routeName: 'standalone:nominateChancellor',
       status: GameStatus.NOMINATING_CHANCELLOR,
@@ -146,5 +149,89 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     if (state.game.drawnPolicies.length) return;
 
     commit(standaloneMutations.drawCards, count);
+  },
+
+  // always called via a watch on drawnPolicies
+  enactPolicy({state, commit, dispatch}, drawnPolicies: Card[]) {
+    if (drawnPolicies.length !== 1) return;
+
+    const { playerCount, status, game: { liberalPolicies, fascistPolicies, drawPile, discardPile } } = state;
+    const card = drawnPolicies[0];
+    commit(standaloneMutations.enactPolicy, card);
+    commit(standaloneMutations.emptyDrawnCards);
+
+    if (card.policy === Policy.Liberal) {
+      if (liberalPolicies.length === 5) {
+        // @TODO game end [lib win]
+        console.warn('[END] 5 lib policies');
+        return;
+      }
+
+      dispatch('navigate', {
+        routeName: 'standalone:nominateChancellor',
+        status: GameStatus.NOMINATING_CHANCELLOR,
+      });
+    } else if (card.policy === Policy.Fascist) {
+      // @TODO ignore abilities if cause is failed election
+      if (status !== GameStatus.ENACT_TOP_POLICY) {
+        switch (fascistPolicies.length) {
+          case 1:
+            if (playerCount >= 9) {
+              // @TODO investigate
+              // navigate
+            }
+            break;
+          case 2:
+            if (playerCount >= 7) {
+              // @TODO investigate
+              // navigate
+            }
+            break;
+          case 3:
+            if (playerCount <= 6) {
+              // @TODO peek
+              // navigate
+            } else if (playerCount >= 7) {
+              // @TODO pick president
+              // navigate
+            }
+            break;
+          case 4:
+            // @TODO execute
+            // navigate
+            break;
+          case 5:
+            // @TODO execute
+            // navigate
+            break;
+          case 6:
+            // @TODO game end [fas win]
+            console.warn('[END] 6 fas policies');
+            return;
+            break;
+        }
+      } else {
+        if (fascistPolicies.length === 6) {
+          // @TODO game end [fas win]
+          console.warn('[END] 6 fas policies');
+          return;
+        }
+      }
+    }
+
+    if (state.game.drawPile.length < 3) {
+      commit(standaloneMutations.updateDrawDeck, shuffle([...drawPile, ...discardPile]));
+      commit(standaloneMutations.updateDiscardDeck, []);
+    }
+  },
+
+  setLastGovernment({state, commit}) {
+    const { president, chancellor } = state.game;
+
+    commit(standaloneMutations.setLastGovernment, {president, chancellor});
+  },
+
+  resetLastGovernment({commit}) {
+    commit(standaloneMutations.setLastGovernment, {president: null, chancellor: null});
   },
 };

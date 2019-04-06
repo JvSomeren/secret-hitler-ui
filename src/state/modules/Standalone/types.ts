@@ -9,6 +9,7 @@ export enum GameStatus {
   PRESIDENT_DISCARDING_POLICY = 'PRESIDENT_DISCARDING_POLICY',
   CHANCELLOR_DISCARDING_POLICY = 'CHANCELLOR_DISCARDING_POLICY',
   EXECUTIVE_ACTION = 'EXECUTIVE_ACTION', // end of round
+  ENACT_TOP_POLICY = 'ENACT_TOP_POLICY', // 3 failed elections in a row
   INVESTIGATING_LOYALTY = 'INVESTIGATING_LOYALTY', // presidential powers
   CALLING_SPECIAL_ELECTION = 'CALLING_SPECIAL_ELECTION',
   POLICY_PEEKING = 'POLICY_PEEKING',
@@ -61,8 +62,8 @@ export interface Game {
   drawPile: Card[]; // default: empty array
   discardPile: Card[]; // default: empty array
   drawnPolicies: Card[]; // default; empty array
-  liberalPolicies: number; // default: 0
-  fascistPolicies: number; // default: 0
+  liberalPolicies: Card[]; // default: 0
+  fascistPolicies: Card[]; // default: 0
   president: Player | null; // default: null
   chancellor: Player | null; // default: null
   lastGovernment: Government; // default: null Government

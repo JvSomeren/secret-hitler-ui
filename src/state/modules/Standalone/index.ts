@@ -28,8 +28,8 @@ export const state = (): StandaloneState => {
       drawPile: [],
       discardPile: [],
       drawnPolicies: [],
-      liberalPolicies: 0,
-      fascistPolicies: 0,
+      liberalPolicies: [],
+      fascistPolicies: [],
       president: null,
       chancellor: null,
       lastGovernment: {

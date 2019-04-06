@@ -1,5 +1,5 @@
 import {MutationTree} from 'vuex';
-import {Card, GameStatus, Player, Role, StandaloneState} from './types';
+import {Card, GameStatus, Player, Policy, Role, StandaloneState} from './types';
 import {state as initialState} from './index';
 import {updateField} from 'vuex-map-fields';
 
@@ -18,6 +18,9 @@ export const standaloneMutations = {
   increaseFailedElectionsTracker: `INCREASE_FAILED_ELECTIONS_TRACKER`,
   drawCards: `DRAW_CARDS`,
   discardCard: `DISCARD_CARD`,
+  enactPolicy: `ENACT_POLICY`,
+  emptyDrawnCards: `EMPTY_DRAWN_CARDS`,
+  setLastGovernment: `SET_LAST_GOVERNMENT`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -86,5 +89,22 @@ export const mutations: MutationTree<StandaloneState> = {
     const discardedPolicy = drawnPolicies.splice(cardIndex, 1)[0];
 
     discardPile.push(discardedPolicy);
+  },
+
+  [standaloneMutations.enactPolicy](state, card: Card) {
+    if (card.policy === Policy.Liberal) {
+      state.game.liberalPolicies.push(card);
+    } else if (card.policy === Policy.Fascist) {
+      state.game.fascistPolicies.push(card);
+    }
+  },
+
+  [standaloneMutations.emptyDrawnCards](state) {
+    state.game.drawnPolicies = [];
+  },
+
+  [standaloneMutations.setLastGovernment](state, {president, chancellor}:
+    {president: Player | null, chancellor: Player | null}) {
+    state.game.lastGovernment = {president, chancellor};
   },
 };
