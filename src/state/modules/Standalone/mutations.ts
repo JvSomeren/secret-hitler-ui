@@ -16,6 +16,7 @@ export const standaloneMutations = {
   updateDiscardDeck: `UPDATE_DISCARD_DECK`,
   assignPlayerRoles: `ASSIGN_PLAYER_ROLES`,
   setPresident: `SET_PRESIDENT`,
+  setChancellor: `SET_CHANCELLOR`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -56,5 +57,9 @@ export const mutations: MutationTree<StandaloneState> = {
 
   [standaloneMutations.setPresident](state, president: Player) {
     state.game.president = president;
+  },
+
+  [standaloneMutations.setChancellor](state, chancellor: Player) {
+    state.game.chancellor = chancellor;
   },
 };

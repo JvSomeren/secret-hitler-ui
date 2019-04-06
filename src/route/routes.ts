@@ -49,6 +49,11 @@ const main = [
         name: 'standalone:initialPresident',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/InitialPresident.vue'),
       },
+      {
+        path: 'nominate-chancellor',
+        name: 'standalone:nominateChancellor',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/NominateChancellor.vue'),
+      },
     ],
   },
 ];
