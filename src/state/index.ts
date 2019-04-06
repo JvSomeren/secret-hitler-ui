@@ -26,9 +26,25 @@ const store = new Vuex.Store({
   modules: {
     standalone,
   },
+  actions: {
+    init() {
+      ['standalone'].forEach((module) => {
+        store.dispatch(`${module}/init`)
+          .then((response) => {
+            // create watchers
+            if (response.hasOwnProperty('watchers')) {
+              for (const watcher of response.watchers) {
+                const args = watcher as [() => {}, () => {}];
+                store.watch(...args);
+              }
+            }
+          });
+      });
+    },
+  },
   plugins: [ vuexLocal.plugin ],
 });
 
-store.dispatch('standalone/init');
+store.dispatch('init');
 
 export default store;

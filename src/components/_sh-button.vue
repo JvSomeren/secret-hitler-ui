@@ -13,8 +13,6 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 export default class Button extends Vue {
   @Prop({type: Boolean, default: false})
   private disabled?: boolean;
-
-  // @TODO expose listeners just as with input
 }
 </script>
 

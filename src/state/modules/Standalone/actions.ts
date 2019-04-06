@@ -50,8 +50,17 @@ const createPlayerRolesArray = (distribution: {[index: number]: number}) => {
 };
 
 export const actions: ActionTree<StandaloneState, RootState> = {
-  init() {
-    // do things
+  init({commit, dispatch}) {
+    return new Promise((resolve) => {
+      resolve({
+        watchers: [
+          [
+            (state: any, getters: any) => getters['standalone/drawnPolicies'],
+            (arr: any) => dispatch('enactPolicy', arr),
+          ],
+        ],
+      });
+    });
   },
 
   navigate({commit}, {routeName, status = null}: {routeName: string, status: GameStatus | null}) {
