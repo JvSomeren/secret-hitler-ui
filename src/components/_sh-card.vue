@@ -1,6 +1,11 @@
 <template>
   <div class="sh-card"
-       :class="{ 'sh-card-light': light, 'sh-card-dark': dark, 'sh-card--active': _active }">
+       :class="{
+       'sh-card-light': light,
+       'sh-card-dark': dark,
+       'sh-card-liberal': liberal,
+       'sh-card-fascist': fascist,
+       'sh-card--active': _active }">
     <div
       class="sh-card-inner"
       @click="_click">
@@ -35,6 +40,12 @@ export default class Card extends Vue {
   @Prop({type: Boolean, default: false})
   private dark?: boolean;
 
+  @Prop({type: Boolean, default: false})
+  private liberal?: boolean;
+
+  @Prop({type: Boolean, default: false})
+  private fascist?: boolean;
+
   @Prop({default: null})
   private flipped?: boolean | null;
 
@@ -55,6 +66,8 @@ export default class Card extends Vue {
 <style scoped lang="scss">
   $sh-card-bg: #434343;
   $sh-card-bg-light: #F7E1C3;
+  $liberal-blue: #698176;
+  $fascist-red: #f2654b;
 
   .sh-card {
     flex: 1;
@@ -88,6 +101,14 @@ export default class Card extends Vue {
 
     transition: transform 300ms ease;
     transform-style: preserve-3d;
+
+    .logo-liberal {
+      transform: rotate(-90deg);
+    }
+
+    .logo-fascist {
+      transform: rotate(90deg);
+    }
   }
 
   .sh-card-inner-border {
@@ -146,5 +167,13 @@ export default class Card extends Vue {
 
   .sh-card-dark .sh-card-front svg {
     fill: $sh-card-bg-light;
+  }
+
+  .sh-card-liberal .sh-card-inner .logo-liberal {
+    fill: $liberal-blue;
+  }
+
+  .sh-card-fascist .sh-card-inner .logo-fascist {
+    fill: $fascist-red;
   }
 </style>
