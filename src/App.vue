@@ -132,6 +132,9 @@ h3 {
 .sh-scrollable-vert {
   flex: 1;
   align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
   overflow-y: auto;
   margin-bottom: 8px;

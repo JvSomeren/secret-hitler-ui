@@ -44,6 +44,11 @@ const main = [
         name: 'standalone:preGame',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PreGame.vue'),
       },
+      {
+        path: 'initial-president',
+        name: 'standalone:initialPresident',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/InitialPresident.vue'),
+      },
     ],
   },
 ];

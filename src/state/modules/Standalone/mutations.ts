@@ -1,5 +1,5 @@
 import {MutationTree} from 'vuex';
-import {Card, GameStatus, Role, StandaloneState} from './types';
+import {Card, GameStatus, Player, Role, StandaloneState} from './types';
 import {state as initialState} from './index';
 
 import {updateField} from 'vuex-map-fields';
@@ -15,6 +15,7 @@ export const standaloneMutations = {
   updateDrawDeck: `UPDATE_DRAW_DECK`,
   updateDiscardDeck: `UPDATE_DISCARD_DECK`,
   assignPlayerRoles: `ASSIGN_PLAYER_ROLES`,
+  setPresident: `SET_PRESIDENT`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -51,5 +52,9 @@ export const mutations: MutationTree<StandaloneState> = {
 
   [standaloneMutations.assignPlayerRoles](state, roles: Role[]) {
     state.players.map((player, index) => player.role = roles[index]);
+  },
+
+  [standaloneMutations.setPresident](state, president: Player) {
+    state.game.president = president;
   },
 };

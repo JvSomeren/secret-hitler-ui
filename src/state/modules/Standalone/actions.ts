@@ -12,7 +12,7 @@ import {
 import {RootState} from '../../types';
 import {standaloneMutations} from '@/state/modules/Standalone/mutations';
 import router from '@/route';
-import shuffle from '@/utils/shuffle';
+import shuffle from 'lodash/shuffle';
 
 const createDrawDeck = (libCardCount: number = 6, fasCardCount: number = 11) => {
   const totalCards = libCardCount + fasCardCount;
