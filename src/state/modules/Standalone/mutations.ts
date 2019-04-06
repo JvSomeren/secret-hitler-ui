@@ -17,6 +17,8 @@ export const standaloneMutations = {
   assignPlayerRoles: `ASSIGN_PLAYER_ROLES`,
   setPresident: `SET_PRESIDENT`,
   setChancellor: `SET_CHANCELLOR`,
+  resetFailedElectionsTracker: `RESET_FAILED_ELECTIONS_TRAKCER`,
+  increaseFailedElectionsTracker: `INCREASE_FAILED_ELECTIONS_TRACKER`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -59,7 +61,15 @@ export const mutations: MutationTree<StandaloneState> = {
     state.game.president = president;
   },
 
-  [standaloneMutations.setChancellor](state, chancellor: Player) {
+  [standaloneMutations.setChancellor](state, chancellor: Player | null) {
     state.game.chancellor = chancellor;
+  },
+
+  [standaloneMutations.resetFailedElectionsTracker](state) {
+    state.game.failedElections = 0;
+  },
+
+  [standaloneMutations.increaseFailedElectionsTracker](state) {
+    state.game.failedElections++;
   },
 };

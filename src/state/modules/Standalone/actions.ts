@@ -3,7 +3,7 @@ import {
   Card,
   GameStatus,
   liberalFascistDistribution,
-  PartyMembership,
+  PartyMembership, Player,
   Policy,
   Role,
   SecretRole,
@@ -87,5 +87,49 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       routeName: 'standalone:showRoles',
       status: GameStatus.SHOWING_ROLES,
     });
+  },
+
+  governmentVotePassed({state, commit, dispatch}) {
+    // 3 or more fascist policies? is chancellor hitler
+    if (state.game.fascistPolicies >= 3
+      && state.game.chancellor!.role!.secretRole === SecretRole.Hitler) {
+      console.warn('Chnacellor is Hitler'); // @TODO game end
+
+      return;
+    }
+
+    commit(standaloneMutations.resetFailedElectionsTracker);
+    dispatch('navigate', {
+      routeName: 'standalone:presidentDiscardPolicy',
+      status: GameStatus.PRESIDENT_DISCARDING_POLICY,
+    });
+  },
+
+  governmentVoteFailed({state, commit, dispatch}) {
+    // increase failed election tracker separate function
+    commit(standaloneMutations.increaseFailedElectionsTracker);
+    // 3 failed elections?
+    if (state.game.failedElections === 3) {
+      console.warn('reveal top policy card'); // @TODO election tracker
+      commit(standaloneMutations.resetFailedElectionsTracker);
+    }
+    // move presidency
+    dispatch('passPresidency');
+    // navigate to nominateChancelor
+    dispatch('navigate', {
+      routeName: 'standalone:nominateChancellor',
+      status: GameStatus.NOMINATING_CHANCELLOR,
+    });
+  },
+
+  passPresidency({commit, dispatch, getters}) {
+    const players = getters.alivePlayers;
+    const government = getters.government;
+
+    const presidentIndex = players.findIndex((player: Player) => player.id === government.president.id);
+    const nextPresident = players[(presidentIndex + 1) % players.length];
+
+    commit(standaloneMutations.setChancellor, null);
+    commit(standaloneMutations.setPresident, nextPresident);
   },
 };
