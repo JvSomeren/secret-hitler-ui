@@ -129,6 +129,14 @@ h3 {
   margin-bottom: 8px;
 }
 
+.sh-scrollable-vert {
+  flex: 1;
+  align-self: stretch;
+  height: 100%;
+  overflow-y: auto;
+  margin-bottom: 8px;
+}
+
 .sh-bottom {
   margin-top: auto;
 }

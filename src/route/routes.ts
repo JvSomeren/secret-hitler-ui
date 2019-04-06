@@ -27,20 +27,22 @@ const main = [
       {
         path: 'player-count',
         name: 'standalone:playerCount',
-        beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerCount.vue'),
       },
       {
         path: 'player-names',
         name: 'standalone:playerNames',
-        beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PlayerNames.vue'),
       },
       {
         path: 'roles',
         name: 'standalone:showRoles',
-        beforeEnter: StandaloneGuard,
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ShowRoles.vue'),
+      },
+      {
+        path: 'pre-game',
+        name: 'standalone:preGame',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PreGame.vue'),
       },
     ],
   },

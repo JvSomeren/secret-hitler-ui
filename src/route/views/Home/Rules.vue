@@ -36,7 +36,7 @@ export default class Rules extends Vue {
     flex: 1;
     align-self: stretch;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     font-family: 'Courier', Courier, monospace;
   }
