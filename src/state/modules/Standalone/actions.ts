@@ -1,6 +1,6 @@
 import {ActionTree} from 'vuex';
 import {
-  Card, Game,
+  Card,
   GameStatus,
   liberalFascistDistribution,
   PartyMembership,
@@ -172,7 +172,6 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         status: GameStatus.NOMINATING_CHANCELLOR,
       });
     } else if (card.policy === Policy.Fascist) {
-      // @TODO ignore abilities if cause is failed election
       if (status !== GameStatus.ENACT_TOP_POLICY) {
         switch (fascistPolicies.length) {
           case 1:
