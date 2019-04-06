@@ -5,6 +5,7 @@
   </div>
 
   <section v-else class="sh-back sh-prompt__wrapper">
+    <div class="sh-back" @click="cancel"><span>Cancel</span></div>
     <div class="sh-prompt">
       <h2>Do you want to close or end the game?</h2>
 
@@ -68,6 +69,10 @@ export default class Back extends Vue {
     if (this.gotoHome) return this.navigateHome();
 
     this.$router.back();
+  }
+
+  private cancel() {
+    this.displayPrompt = false;
   }
 }
 </script>
