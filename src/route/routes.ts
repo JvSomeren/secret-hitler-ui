@@ -59,6 +59,11 @@ const main = [
         name: 'standalone:voteOnGovernment',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/VoteOnGovernment.vue'),
       },
+      {
+        path: 'president-discard-policy',
+        name: 'standalone:presidentDiscardPolicy',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/PresidentDiscardPolicy.vue'),
+      },
     ],
   },
 ];

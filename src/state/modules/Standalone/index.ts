@@ -27,6 +27,7 @@ export const state = (): StandaloneState => {
     game: {
       drawPile: [],
       discardPile: [],
+      drawnPolicies: [],
       liberalPolicies: 0,
       fascistPolicies: 0,
       president: null,

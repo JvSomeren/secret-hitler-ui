@@ -132,4 +132,10 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     commit(standaloneMutations.setChancellor, null);
     commit(standaloneMutations.setPresident, nextPresident);
   },
+
+  drawCards({state, commit}, count: number = 3) {
+    if (state.game.drawnPolicies.length) return;
+
+    commit(standaloneMutations.drawCards, count);
+  },
 };

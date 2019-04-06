@@ -1,10 +1,7 @@
 import {MutationTree} from 'vuex';
 import {Card, GameStatus, Player, Role, StandaloneState} from './types';
 import {state as initialState} from './index';
-
 import {updateField} from 'vuex-map-fields';
-
-const TYPE_PREFIX = 'STANDALONE';
 
 export const standaloneMutations = {
   resetState: `RESET_STATE`,
@@ -19,6 +16,8 @@ export const standaloneMutations = {
   setChancellor: `SET_CHANCELLOR`,
   resetFailedElectionsTracker: `RESET_FAILED_ELECTIONS_TRAKCER`,
   increaseFailedElectionsTracker: `INCREASE_FAILED_ELECTIONS_TRACKER`,
+  drawCards: `DRAW_CARDS`,
+  discardCard: `DISCARD_CARD`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -71,5 +70,21 @@ export const mutations: MutationTree<StandaloneState> = {
 
   [standaloneMutations.increaseFailedElectionsTracker](state) {
     state.game.failedElections++;
+  },
+
+  [standaloneMutations.drawCards](state, count: number = 3) {
+    const { drawPile } = state.game;
+    let drawnCards: Card[] = [];
+
+    for (let i = 0; i < count; i++) drawnCards = [...drawnCards, drawPile.pop()] as Card[];
+
+    state.game.drawnPolicies = drawnCards;
+  },
+
+  [standaloneMutations.discardCard](state, cardIndex: number) {
+    const { discardPile, drawnPolicies } = state.game;
+    const discardedPolicy = drawnPolicies.splice(cardIndex, 1)[0];
+
+    discardPile.push(discardedPolicy);
   },
 };

@@ -60,6 +60,7 @@ export interface Government {
 export interface Game {
   drawPile: Card[]; // default: empty array
   discardPile: Card[]; // default: empty array
+  drawnPolicies: Card[]; // default; empty array
   liberalPolicies: number; // default: 0
   fascistPolicies: number; // default: 0
   president: Player | null; // default: null
