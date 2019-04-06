@@ -69,6 +69,11 @@ const main = [
         name: 'standalone:chancellorDiscardPolicy',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ChancellorDiscardPolicy.vue'),
       },
+      {
+        path: 'veto',
+        name: 'standalone:veto',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/Veto.vue'),
+      },
     ],
   },
 ];

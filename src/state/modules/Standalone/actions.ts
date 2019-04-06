@@ -57,7 +57,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         watchers: [
           [
             (state: any, getters: any) => getters['standalone/drawnPolicies'],
-            (arr: any) => dispatch('enactPolicy', arr),
+            (arr: any) => dispatch('enactPolicyHandler', arr),
+          ],
+          [
+            (state: any, getters: any) => getters['standalone/failedElections'],
+            (failedElections: number) => dispatch('failedElectionsHandler', failedElections),
           ],
         ],
       });
@@ -116,15 +120,7 @@ export const actions: ActionTree<StandaloneState, RootState> = {
   },
 
   governmentVoteFailed({state, commit, dispatch}) {
-    // increase failed election tracker separate function
     commit(standaloneMutations.increaseFailedElectionsTracker);
-
-    if (state.game.failedElections === 3) {
-      commit(standaloneMutations.updateStatus, GameStatus.ENACT_TOP_POLICY);
-      commit(standaloneMutations.drawCards, 1);
-      dispatch('resetLastGovernment');
-      commit(standaloneMutations.resetFailedElectionsTracker);
-    }
 
     dispatch('passPresidency');
 
@@ -152,7 +148,7 @@ export const actions: ActionTree<StandaloneState, RootState> = {
   },
 
   // always called via a watch on drawnPolicies
-  enactPolicy({state, commit, dispatch}, drawnPolicies: Card[]) {
+  enactPolicyHandler({state, commit, dispatch}, drawnPolicies: Card[]) {
     if (drawnPolicies.length !== 1) return;
 
     const { playerCount, status, game: { liberalPolicies, fascistPolicies, drawPile, discardPile } } = state;
@@ -218,10 +214,27 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       }
     }
 
-    if (state.game.drawPile.length < 3) {
+    if (drawPile.length < 3) {
       commit(standaloneMutations.updateDrawDeck, shuffle([...drawPile, ...discardPile]));
       commit(standaloneMutations.updateDiscardDeck, []);
     }
+  },
+
+  failedElectionsHandler({state, commit, dispatch}, failedElections: number) {
+    if (failedElections !== 3) return;
+
+    const { drawPile, discardPile } = state.game;
+
+    commit(standaloneMutations.updateStatus, GameStatus.ENACT_TOP_POLICY);
+
+    if (drawPile.length < 3) {
+      commit(standaloneMutations.updateDrawDeck, shuffle([...drawPile, ...discardPile]));
+      commit(standaloneMutations.updateDiscardDeck, []);
+    }
+
+    commit(standaloneMutations.drawCards, 1);
+    dispatch('resetLastGovernment');
+    commit(standaloneMutations.resetFailedElectionsTracker);
   },
 
   setLastGovernment({state, commit}) {
@@ -232,5 +245,18 @@ export const actions: ActionTree<StandaloneState, RootState> = {
 
   resetLastGovernment({commit}) {
     commit(standaloneMutations.setLastGovernment, {president: null, chancellor: null});
+  },
+
+  veto({commit, dispatch}) {
+    commit(standaloneMutations.discardDrawnCards);
+
+    commit(standaloneMutations.increaseFailedElectionsTracker);
+
+    dispatch('passPresidency');
+
+    dispatch('navigate', {
+      routeName: 'standalone:nominateChancellor',
+      status: GameStatus.NOMINATING_CHANCELLOR,
+    });
   },
 };

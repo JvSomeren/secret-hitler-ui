@@ -1,6 +1,7 @@
 <template>
   <div>
     <ShBack endPrompt>X Exit</ShBack>
+
     <section class="main">
       <template v-if="state === ChancellorDiscardPolicyState.PASS_DEVICE">
         <PassDevice
@@ -22,10 +23,16 @@
           <LogoFascist v-else-if="card.policy === Policy.Fascist" />
         </ShCard>
 
-        <ShButton
-          class="sh-bottom"
-          :disabled="selectedCardIndex === null"
-          @click.native="_confirm">Confirm</ShButton>
+        <div class="sh-bottom sh-row">
+          <ShButton
+            v-if="true"
+            :disabled="disabled"
+            @click.native="_veto">Ask for veto</ShButton>
+
+          <ShButton
+            :disabled="selectedCardIndex === null || disabled"
+            @click.native="_confirm">Confirm</ShButton>
+        </div>
       </template>
     </section>
   </div>
@@ -34,7 +41,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {namespace} from 'vuex-class';
-import {Card, Player, Policy} from '@/state/modules/Standalone/types';
+import {Card, GameStatus, Player, Policy} from '@/state/modules/Standalone/types';
 import PassDevice from '@/components/PassDevice.vue';
 import LogoLiberal from '@/assets/logo-liberal.svg';
 import LogoFascist from '@/assets/logo-fascist.svg';
@@ -61,6 +68,9 @@ export default class ChancellorDiscardPolicy extends Vue {
   @standalone.State((state) => state.game.drawnPolicies)
   private cards!: Card[];
 
+  @standalone.Getter('hasVeto')
+  private hasVeto!: boolean;
+
   @standalone.Mutation(standaloneMutations.discardCard)
   private discardCard!: any;
 
@@ -79,10 +89,14 @@ export default class ChancellorDiscardPolicy extends Vue {
   private ChancellorDiscardPolicyState = ChancellorDiscardPolicyState;
   private Policy = Policy;
 
+  private disabled = true;
   private state = ChancellorDiscardPolicyState.PASS_DEVICE;
   private selectedCardIndex: number | null = null;
 
   private _passed() {
+    setTimeout(() => {
+      this.disabled = false;
+    }, 1000);
     this.state = ChancellorDiscardPolicyState.DISCARDING_POLICY;
   }
 
@@ -91,12 +105,17 @@ export default class ChancellorDiscardPolicy extends Vue {
   }
 
   private _veto() {
-    // @TODO add veto ability
-    // president needs to confirm
-    // if confirmed increase failed elections tracker
+    if (this.disabled) return;
+
+    this.navigate({
+      routeName: 'standalone:veto',
+      status: GameStatus.CALLING_VETO,
+    });
   }
 
   private _confirm() {
+    if (this.selectedCardIndex === null || this.disabled) return;
+
     this.discardCard(this.selectedCardIndex);
     this.resetFailedElectionsTracker();
     this.setLastGovernment();

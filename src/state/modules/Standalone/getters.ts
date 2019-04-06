@@ -69,9 +69,13 @@ export const getters: GetterTree<StandaloneState, RootState> = {
     return drawnPolicies;
   },
 
-  vetoEnabled(state): boolean {
+  hasVeto(state): boolean {
     const { fascistPolicies } = state.game;
 
     return fascistPolicies.length >= 5;
+  },
+
+  failedElections(state): number {
+    return state.game.failedElections;
   },
 };

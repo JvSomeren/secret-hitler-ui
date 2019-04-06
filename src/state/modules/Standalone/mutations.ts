@@ -18,6 +18,7 @@ export const standaloneMutations = {
   increaseFailedElectionsTracker: `INCREASE_FAILED_ELECTIONS_TRACKER`,
   drawCards: `DRAW_CARDS`,
   discardCard: `DISCARD_CARD`,
+  discardDrawnCards: `DISCARD_DRAWN_CARDS`,
   enactPolicy: `ENACT_POLICY`,
   emptyDrawnCards: `EMPTY_DRAWN_CARDS`,
   setLastGovernment: `SET_LAST_GOVERNMENT`,
@@ -89,6 +90,13 @@ export const mutations: MutationTree<StandaloneState> = {
     const discardedPolicy = drawnPolicies.splice(cardIndex, 1)[0];
 
     discardPile.push(discardedPolicy);
+  },
+
+  [standaloneMutations.discardDrawnCards](state) {
+    const { discardPile, drawnPolicies } = state.game;
+    const discardedPolicies = drawnPolicies.splice(0, drawnPolicies.length);
+
+    discardPile.push(...discardedPolicies);
   },
 
   [standaloneMutations.enactPolicy](state, card: Card) {
