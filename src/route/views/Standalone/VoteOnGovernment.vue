@@ -7,12 +7,12 @@
     <section class="main">
       <div class="sh-president">
         <h3>President</h3>
-        <h2>{{ government.president.name }}</h2>
+        <h2>{{ presidentName }}</h2>
       </div>
 
       <div class="sh-chancellor">
         <h3>Chancellor</h3>
-        <h2>{{ government.chancellor.name }}</h2>
+        <h2>{{ chancellorName }}</h2>
       </div>
 
       <div class="sh-instructions">
@@ -51,6 +51,18 @@ export default class VoteOnGovernment extends Vue {
   private voteFailed!: any;
 
   private disabled = true;
+
+  get presidentName() {
+    if (this.government) return this.government.president!.name;
+
+    return '';
+  }
+
+  get chancellorName() {
+    if (this.government) return this.government.chancellor!.name;
+
+    return '';
+  }
 
   private _click(passed: boolean) {
     if (this.disabled) return;

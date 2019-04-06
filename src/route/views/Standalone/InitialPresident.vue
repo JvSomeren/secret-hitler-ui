@@ -12,6 +12,8 @@
       <div class="sh-scrollable-vert">
         <ShButton @click.native="_click()">Default: random</ShButton>
 
+        <hr>
+
         <div class="sh-player-grid">
           <ShButton
             v-for="player in players"

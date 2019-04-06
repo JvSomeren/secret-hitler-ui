@@ -61,6 +61,8 @@ export default class PreGame extends Vue {
   private disabled = true;
 
   private _click() {
+    if (this.disabled) return;
+
     this.navigate({
       routeName: 'standalone:initialPresident',
       status: GameStatus.CHOOSING_INITIAL_PRESIDENT,

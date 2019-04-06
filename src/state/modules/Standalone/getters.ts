@@ -33,6 +33,8 @@ export const getters: GetterTree<StandaloneState, RootState> = {
     const players = getter.alivePlayers;
     const lastGovernment = getter.lastGovernment;
 
+    if (president === null) return [];
+
     return players.filter((player: Player) => {
       if (player.id === president!.id) return false;
       if (lastGovernment) {

@@ -10,7 +10,7 @@
       <template v-if="state === NominateChancellorState.PASS_DEVICE">
         <div class="sh-player__header">
           <h3 class="sh-helper-top">Pass the device to</h3>
-          <h1 class="sh-player--name">{{ president.name }}</h1>
+          <h1 class="sh-player--name">{{ presidentName }}</h1>
         </div>
 
         <ShButton
@@ -66,6 +66,12 @@ export default class NominateChancellor extends Vue {
   private NominateChancellorState = NominateChancellorState;
 
   private state = NominateChancellorState.PASS_DEVICE;
+
+  get presidentName() {
+    if (this.president !== null) return this.president.name;
+
+    return '';
+  }
 
   private _click(player: Player) {
     this.setChancellor(player);
