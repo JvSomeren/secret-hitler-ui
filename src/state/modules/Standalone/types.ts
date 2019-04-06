@@ -52,6 +52,11 @@ export interface Card {
   policy: Policy;
 }
 
+export interface Government {
+  president: Player | null; // default: null
+  chancellor: Player | null; // default: null
+}
+
 export interface Game {
   drawPile: Card[]; // default: empty array
   discardPile: Card[]; // default: empty array
@@ -59,6 +64,7 @@ export interface Game {
   fascistPolicies: number; // default: 0
   president: Player | null; // default: null
   chancellor: Player | null; // default: null
+  lastGovernment: Government; // default: null Government
   failedElections: number; // default: 0
 }
 

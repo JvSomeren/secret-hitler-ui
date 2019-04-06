@@ -31,6 +31,10 @@ export const state = (): StandaloneState => {
       fascistPolicies: 0,
       president: null,
       chancellor: null,
+      lastGovernment: {
+        president: null,
+        chancellor: null,
+      },
       failedElections: 0,
     },
     playerCount: 0,

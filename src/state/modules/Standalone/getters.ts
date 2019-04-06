@@ -27,4 +27,12 @@ export const getters: GetterTree<StandaloneState, RootState> = {
 
     return getter.allPlayers.filter((player: Player) => !player.dead);
   },
+
+  lastGovernment(state): Government | boolean {
+    const { lastGovernment } = state.game;
+
+    if (lastGovernment.president === null) return false;
+
+    return lastGovernment;
+  },
 };
