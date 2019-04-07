@@ -78,4 +78,14 @@ export const getters: GetterTree<StandaloneState, RootState> = {
   failedElections(state): number {
     return state.game.failedElections;
   },
+
+  topOfDrawPile(state): Card[] {
+    const { drawPile } = state.game;
+
+    return drawPile.reduceRight((topCards, card: Card, index) => {
+      if (index < drawPile.length - 3) return topCards;
+
+      return topCards.concat(card);
+    }, [] as Card[]);
+  },
 };

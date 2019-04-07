@@ -121,7 +121,9 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5 {
   font-family: 'Futura', sans-serif;;
   font-weight: 700;
   color: #434343;

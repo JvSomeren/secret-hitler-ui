@@ -2,7 +2,7 @@
   <div class="sh-pass-device">
     <div class="sh-player__header">
       <h3 class="sh-helper-top">Pass the device to</h3>
-      <h1 class="sh-player--name">{{ player.name }}</h1>
+      <h1 class="sh-player--name">{{ playerName }}</h1>
     </div>
 
     <ShButton
@@ -25,6 +25,12 @@ export default class PassDevice extends Vue {
 
   @Emit('passed')
   private passed() { return; }
+
+  get playerName() {
+    if (this.player === null) return '';
+
+    return this.player.name;
+  }
 
   private _click() {
     if (this.disabled) return;

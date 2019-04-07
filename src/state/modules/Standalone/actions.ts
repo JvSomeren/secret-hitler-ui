@@ -156,6 +156,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     commit(standaloneMutations.enactPolicy, card);
     commit(standaloneMutations.emptyDrawnCards);
 
+    if (drawPile.length < 3) {
+      commit(standaloneMutations.updateDrawDeck, shuffle([...drawPile, ...discardPile]));
+      commit(standaloneMutations.updateDiscardDeck, []);
+    }
+
     if (card.policy === Policy.Liberal) {
       if (liberalPolicies.length === 5) {
         // @TODO game end [lib win]
@@ -169,6 +174,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       });
     } else if (card.policy === Policy.Fascist) {
       if (status !== GameStatus.ENACT_TOP_POLICY) {
+        let destination = {
+          routeName: 'standalone:nominateChancellor',
+          status: GameStatus.NOMINATING_CHANCELLOR,
+        };
+
         switch (fascistPolicies.length) {
           case 1:
             if (playerCount >= 9) {
@@ -184,8 +194,10 @@ export const actions: ActionTree<StandaloneState, RootState> = {
             break;
           case 3:
             if (playerCount <= 6) {
-              // @TODO peek
-              // navigate
+              destination = {
+                routeName: 'standalone:executivePower:peek',
+                status: GameStatus.POLICY_PEEKING,
+              };
             } else if (playerCount >= 7) {
               // @TODO pick president
               // navigate
@@ -205,6 +217,8 @@ export const actions: ActionTree<StandaloneState, RootState> = {
             return;
             break;
         }
+
+        dispatch('navigate', destination);
       } else {
         if (fascistPolicies.length === 6) {
           // @TODO game end [fas win]
@@ -212,11 +226,6 @@ export const actions: ActionTree<StandaloneState, RootState> = {
           return;
         }
       }
-    }
-
-    if (drawPile.length < 3) {
-      commit(standaloneMutations.updateDrawDeck, shuffle([...drawPile, ...discardPile]));
-      commit(standaloneMutations.updateDiscardDeck, []);
     }
   },
 

@@ -74,6 +74,18 @@ const main = [
         name: 'standalone:veto',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/Veto.vue'),
       },
+      {
+        path: 'executive-power',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ExecutivePower.vue'),
+        children: [
+          {
+            path: 'peek',
+            name: 'standalone:executivePower:peek',
+            component: () => import(/* webpackChunkName: "standalone" */
+              './views/Standalone/ExecutivePower/Peek.vue'),
+          },
+        ],
+      },
     ],
   },
 ];
