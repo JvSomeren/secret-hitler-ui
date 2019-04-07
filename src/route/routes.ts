@@ -91,6 +91,12 @@ const main = [
               './views/Standalone/ExecutivePower/Peek.vue'),
           },
           {
+            path: 'special-election',
+            name: 'standalone:executivePower:specialElection',
+            component: () => import(/* webpackChunkName: "standalone" */
+              './views/Standalone/ExecutivePower/SpecialElection.vue'),
+          },
+          {
             path: 'execute',
             name: 'standalone:executivePower:execute',
             component: () => import(/* webpackChunkName: "standalone" */

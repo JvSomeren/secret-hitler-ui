@@ -23,6 +23,7 @@ export const standaloneMutations = {
   emptyDrawnCards: `EMPTY_DRAWN_CARDS`,
   setLastGovernment: `SET_LAST_GOVERNMENT`,
   executePlayer: `EXECUTE_PLAYER`,
+  setNextPresident: `SET_NEXT_PRESIDENT`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -120,5 +121,9 @@ export const mutations: MutationTree<StandaloneState> = {
 
   [standaloneMutations.executePlayer](state, player: Player) {
     state.players[player.id].dead = true;
+  },
+
+  [standaloneMutations.setNextPresident](state, player: Player | null) {
+    state.game.nextPresident = player;
   },
 };

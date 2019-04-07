@@ -68,6 +68,7 @@ export interface Game {
   chancellor: Player | null; // default: null
   lastGovernment: Government; // default: null Government
   failedElections: number; // default: 0
+  nextPresident: Player | null; // default: null
 }
 
 export interface StandaloneState {

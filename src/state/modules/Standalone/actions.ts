@@ -130,15 +130,23 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     });
   },
 
-  passPresidency({commit, dispatch, getters}) {
-    const players = getters.alivePlayers;
-    const government = getters.government;
+  passPresidency({state, commit, dispatch, getters}) {
+    const { nextPresident } = state.game;
 
-    const presidentIndex = players.findIndex((player: Player) => player.id === government.president.id);
-    const nextPresident = players[(presidentIndex + 1) % players.length];
+    if (nextPresident === null) {
+      const players = getters.alivePlayers;
+      const government = getters.government;
 
-    commit(standaloneMutations.setChancellor, null);
-    commit(standaloneMutations.setPresident, nextPresident);
+      const presidentIndex = players.findIndex((player: Player) => player.id === government.president.id);
+      const president = players[(presidentIndex + 1) % players.length];
+
+      commit(standaloneMutations.setChancellor, null);
+      commit(standaloneMutations.setPresident, president);
+    } else {
+      commit(standaloneMutations.setChancellor, null);
+      commit(standaloneMutations.setPresident, nextPresident);
+      commit(standaloneMutations.setNextPresident, null);
+    }
   },
 
   drawCards({state, commit}, count: number = 3) {
@@ -203,8 +211,10 @@ export const actions: ActionTree<StandaloneState, RootState> = {
                 status: GameStatus.POLICY_PEEKING,
               };
             } else if (playerCount >= 7) {
-              // @TODO pick president
-              // navigate
+              destination = {
+                routeName: 'standalone:executivePower:specialElection',
+                status: GameStatus.CALLING_SPECIAL_ELECTION,
+              };
             }
             break;
           case 4:
@@ -299,5 +309,17 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         status: GameStatus.NOMINATING_CHANCELLOR,
       });
     }
+  },
+
+  specialElection({commit, getters, dispatch}, president: Player) {
+    const players = getters.alivePlayers;
+    const government = getters.government;
+
+    const nextPresidentIndex = players.findIndex((player: Player) => player.id === government.president.id);
+    const nextPresident = players[(nextPresidentIndex + 1) % players.length];
+
+    commit(standaloneMutations.setChancellor, null);
+    commit(standaloneMutations.setPresident, president);
+    commit(standaloneMutations.setNextPresident, nextPresident);
   },
 };

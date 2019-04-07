@@ -37,6 +37,7 @@ export const state = (): StandaloneState => {
         chancellor: null,
       },
       failedElections: 0,
+      nextPresident: null,
     },
     playerCount: 0,
     players: createPlayersArray(),
