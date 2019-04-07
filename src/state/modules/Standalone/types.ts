@@ -1,3 +1,10 @@
+export enum GameEndResult {
+  LIBERAL_POLICIES = 'LIBERAL_POLICIES',
+  FASCIST_POLICIES = 'FASCIST_POLICIES',
+  HITLER_KILLED = 'HITLER_KILLED',
+  HITLER_CHANCELLOR = 'HITLER_CHANCELLOR',
+}
+
 export enum GameStatus {
   STOPPED = 'STOPPED',
   INITIALIZING = 'INITIALIZING', // start of game
@@ -69,6 +76,7 @@ export interface Game {
   lastGovernment: Government; // default: null Government
   failedElections: number; // default: 0
   nextPresident: Player | null; // default: null
+  endResult: GameEndResult | null; // default: null
 }
 
 export interface StandaloneState {

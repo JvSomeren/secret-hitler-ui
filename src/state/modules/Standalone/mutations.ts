@@ -1,5 +1,5 @@
 import {MutationTree} from 'vuex';
-import {Card, GameStatus, Player, Policy, Role, StandaloneState} from './types';
+import {Card, GameEndResult, GameStatus, Player, Policy, Role, StandaloneState} from './types';
 import {state as initialState} from './index';
 import {updateField} from 'vuex-map-fields';
 
@@ -24,6 +24,7 @@ export const standaloneMutations = {
   setLastGovernment: `SET_LAST_GOVERNMENT`,
   executePlayer: `EXECUTE_PLAYER`,
   setNextPresident: `SET_NEXT_PRESIDENT`,
+  setGameEnd: `SET_GAME_END`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -125,5 +126,9 @@ export const mutations: MutationTree<StandaloneState> = {
 
   [standaloneMutations.setNextPresident](state, player: Player | null) {
     state.game.nextPresident = player;
+  },
+
+  [standaloneMutations.setGameEnd](state, result: GameEndResult) {
+    state.game.endResult = result;
   },
 };

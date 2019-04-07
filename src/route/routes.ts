@@ -75,6 +75,11 @@ const main = [
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/Veto.vue'),
       },
       {
+        path: 'game-end',
+        name: 'standalone:gameEnd',
+        component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/GameEnd.vue'),
+      },
+      {
         path: 'executive-power',
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ExecutivePower.vue'),
         children: [

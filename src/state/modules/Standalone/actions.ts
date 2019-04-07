@@ -1,6 +1,6 @@
 import {ActionTree} from 'vuex';
 import {
-  Card,
+  Card, GameEndResult,
   GameStatus,
   liberalFascistDistribution,
   PartyMembership,
@@ -107,10 +107,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     // 3 or more fascist policies? is chancellor hitler
     if (state.game.fascistPolicies.length >= 3
       && state.game.chancellor!.role!.secretRole === SecretRole.Hitler) {
-      // @TODO game end [fas win]
-      console.warn('[END] Hitler is chancellor');
-
-      return;
+      commit(standaloneMutations.setGameEnd, GameEndResult.HITLER_CHANCELLOR);
+      return dispatch('navigate', {
+        routeName: 'standalone:gameEnd',
+        status: GameStatus.GAME_END,
+      });
     }
 
     dispatch('navigate', {
@@ -171,9 +172,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
 
     if (card.policy === Policy.Liberal) {
       if (liberalPolicies.length === 5) {
-        // @TODO game end [lib win]
-        console.warn('[END] 5 lib policies');
-        return;
+        commit(standaloneMutations.setGameEnd, GameEndResult.LIBERAL_POLICIES);
+        return dispatch('navigate', {
+          routeName: 'standalone:gameEnd',
+          status: GameStatus.GAME_END,
+        });
       }
 
       dispatch('navigate', {
@@ -230,10 +233,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
             };
             break;
           case 6:
-            // @TODO game end [fas win]
-            console.warn('[END] 6 fas policies');
-            return;
-            break;
+            commit(standaloneMutations.setGameEnd, GameEndResult.FASCIST_POLICIES);
+            return dispatch('navigate', {
+              routeName: 'standalone:gameEnd',
+              status: GameStatus.GAME_END,
+            });
         }
 
         switch (destination.status) {
@@ -247,9 +251,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         dispatch('navigate', destination);
       } else {
         if (fascistPolicies.length === 6) {
-          // @TODO game end [fas win]
-          console.warn('[END] 6 fas policies');
-          return;
+          commit(standaloneMutations.setGameEnd, GameEndResult.FASCIST_POLICIES);
+          return dispatch('navigate', {
+            routeName: 'standalone:gameEnd',
+            status: GameStatus.GAME_END,
+          });
         }
       }
     }
@@ -299,9 +305,11 @@ export const actions: ActionTree<StandaloneState, RootState> = {
     commit(standaloneMutations.executePlayer, player);
 
     if (player.role!.secretRole === SecretRole.Hitler) {
-      // @TODO game end [lib win]
-      console.warn('[END] Hitler was killed');
-      return;
+      commit(standaloneMutations.setGameEnd, GameEndResult.HITLER_KILLED);
+      return dispatch('navigate', {
+        routeName: 'standalone:gameEnd',
+        status: GameStatus.GAME_END,
+      });
     } else {
       dispatch('passPresidency');
       dispatch('navigate', {
