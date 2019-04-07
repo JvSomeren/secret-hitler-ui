@@ -25,7 +25,7 @@
 
         <div class="sh-bottom sh-row">
           <ShButton
-            v-if="true"
+            v-if="hasVeto"
             :disabled="disabled"
             @click.native="_veto">Ask for veto</ShButton>
 
