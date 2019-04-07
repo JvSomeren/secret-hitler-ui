@@ -25,7 +25,7 @@
         <ShButton
           class="sh-bottom"
           :disabled="selectedCardIndex === null"
-          @click.native="_confirm">Confirm</ShButton>
+          @click.native="_confirm">Discard</ShButton>
       </template>
     </section>
   </div>

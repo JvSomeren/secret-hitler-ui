@@ -31,7 +31,7 @@
 
           <ShButton
             :disabled="selectedCardIndex === null || disabled"
-            @click.native="_confirm">Confirm</ShButton>
+            @click.native="_confirm">Discard</ShButton>
         </div>
       </template>
     </section>
