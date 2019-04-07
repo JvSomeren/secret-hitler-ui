@@ -79,6 +79,12 @@ const main = [
         component: () => import(/* webpackChunkName: "standalone" */ './views/Standalone/ExecutivePower.vue'),
         children: [
           {
+            path: 'investigate',
+            name: 'standalone:executivePower:investigate',
+            component: () => import(/* webpackChunkName: "standalone" */
+              './views/Standalone/ExecutivePower/Investigate.vue'),
+          },
+          {
             path: 'peek',
             name: 'standalone:executivePower:peek',
             component: () => import(/* webpackChunkName: "standalone" */

@@ -169,11 +169,17 @@ export default class Card extends Vue {
     fill: $sh-card-bg-light;
   }
 
-  .sh-card-liberal .sh-card-inner .logo-liberal {
-    fill: $liberal-blue;
+  .sh-card-liberal .sh-card-inner {
+    .text-liberal,
+    .logo-liberal {
+      fill: $liberal-blue;
+    }
   }
 
-  .sh-card-fascist .sh-card-inner .logo-fascist {
-    fill: $fascist-red;
+  .sh-card-fascist .sh-card-inner {
+    .text-fascist,
+    .logo-fascist {
+      fill: $fascist-red;
+    }
   }
 </style>

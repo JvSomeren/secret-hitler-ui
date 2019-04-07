@@ -182,14 +182,18 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         switch (fascistPolicies.length) {
           case 1:
             if (playerCount >= 9) {
-              // @TODO investigate
-              // navigate
+              destination = {
+                routeName: 'standalone:executivePower:investigate',
+                status: GameStatus.INVESTIGATING_LOYALTY,
+              };
             }
             break;
           case 2:
             if (playerCount >= 7) {
-              // @TODO investigate
-              // navigate
+              destination = {
+                routeName: 'standalone:executivePower:investigate',
+                status: GameStatus.INVESTIGATING_LOYALTY,
+              };
             }
             break;
           case 3:
