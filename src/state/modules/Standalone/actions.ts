@@ -222,6 +222,14 @@ export const actions: ActionTree<StandaloneState, RootState> = {
             break;
         }
 
+        switch (destination.status) {
+          case GameStatus.NOMINATING_CHANCELLOR:
+          case GameStatus.INVESTIGATING_LOYALTY:
+          case GameStatus.POLICY_PEEKING:
+            dispatch('passPresidency');
+            break;
+        }
+
         dispatch('navigate', destination);
       } else {
         if (fascistPolicies.length === 6) {
@@ -281,6 +289,7 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       console.warn('[END] Hitler was killed');
       return;
     } else {
+      dispatch('passPresidency');
       dispatch('navigate', {
         routeName: 'standalone:nominateChancellor',
         status: GameStatus.NOMINATING_CHANCELLOR,

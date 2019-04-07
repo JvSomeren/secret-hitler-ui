@@ -119,7 +119,6 @@ export default class ChancellorDiscardPolicy extends Vue {
     this.discardCard(this.selectedCardIndex);
     this.resetFailedElectionsTracker();
     this.setLastGovernment();
-    this.passPresidency();
   }
 }
 </script>
