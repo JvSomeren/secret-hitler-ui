@@ -45,10 +45,10 @@ export default class Back extends Vue {
 
   private _endGame() {
     if (this.endGameButtonDisabled) return;
-    if (this.$router.currentRoute.name!.split(':')[0] === 'standalone') this.resetStateStandalone();
-    else return;
-
-    this.navigateHome();
+    if (this.$router.currentRoute.name!.split(':')[0] === 'standalone') {
+      this.navigateHome();
+      this.resetStateStandalone();
+    } else return;
   }
 
   private showPrompt() {

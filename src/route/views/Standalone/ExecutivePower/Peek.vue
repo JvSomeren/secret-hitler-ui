@@ -84,7 +84,7 @@ export default class Peek extends Vue {
     this.navigate({
       routeName: 'standalone:nominateChancellor',
       status: GameStatus.NOMINATING_CHANCELLOR,
-    })
+    });
   }
 }
 </script>

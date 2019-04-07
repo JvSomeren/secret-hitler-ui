@@ -84,6 +84,12 @@ const main = [
             component: () => import(/* webpackChunkName: "standalone" */
               './views/Standalone/ExecutivePower/Peek.vue'),
           },
+          {
+            path: 'execute',
+            name: 'standalone:executivePower:execute',
+            component: () => import(/* webpackChunkName: "standalone" */
+              './views/Standalone/ExecutivePower/Execute.vue'),
+          },
         ],
       },
     ],

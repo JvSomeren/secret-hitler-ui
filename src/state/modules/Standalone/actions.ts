@@ -204,12 +204,16 @@ export const actions: ActionTree<StandaloneState, RootState> = {
             }
             break;
           case 4:
-            // @TODO execute
-            // navigate
+            destination = {
+              routeName: 'standalone:executivePower:execute',
+              status: GameStatus.EXECUTING,
+            };
             break;
           case 5:
-            // @TODO execute
-            // navigate
+            destination = {
+              routeName: 'standalone:executivePower:execute',
+              status: GameStatus.EXECUTING,
+            };
             break;
           case 6:
             // @TODO game end [fas win]
@@ -267,5 +271,20 @@ export const actions: ActionTree<StandaloneState, RootState> = {
       routeName: 'standalone:nominateChancellor',
       status: GameStatus.NOMINATING_CHANCELLOR,
     });
+  },
+
+  execute({commit, dispatch}, player: Player) {
+    commit(standaloneMutations.executePlayer, player);
+
+    if (player.role!.secretRole === SecretRole.Hitler) {
+      // @TODO game end [lib win]
+      console.warn('[END] Hitler was killed');
+      return;
+    } else {
+      dispatch('navigate', {
+        routeName: 'standalone:nominateChancellor',
+        status: GameStatus.NOMINATING_CHANCELLOR,
+      });
+    }
   },
 };

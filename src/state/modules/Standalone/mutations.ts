@@ -22,6 +22,7 @@ export const standaloneMutations = {
   enactPolicy: `ENACT_POLICY`,
   emptyDrawnCards: `EMPTY_DRAWN_CARDS`,
   setLastGovernment: `SET_LAST_GOVERNMENT`,
+  executePlayer: `EXECUTE_PLAYER`,
 };
 
 export const mutations: MutationTree<StandaloneState> = {
@@ -30,6 +31,7 @@ export const mutations: MutationTree<StandaloneState> = {
   [standaloneMutations.resetState](state) {
     const {playerCount, players, ...newState} = initialState();
     Object.assign(state, newState);
+    state.players.map((player) => player.dead = false);
   },
 
   [standaloneMutations.updateStatus](state, status: GameStatus) {
@@ -114,5 +116,9 @@ export const mutations: MutationTree<StandaloneState> = {
   [standaloneMutations.setLastGovernment](state, {president, chancellor}:
     {president: Player | null, chancellor: Player | null}) {
     state.game.lastGovernment = {president, chancellor};
+  },
+
+  [standaloneMutations.executePlayer](state, player: Player) {
+    state.players[player.id].dead = true;
   },
 };
