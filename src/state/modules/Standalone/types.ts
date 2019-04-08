@@ -25,6 +25,15 @@ export enum GameStatus {
   GAME_END = 'GAME_END', // end of game
 }
 
+export interface GameInfo {
+  liberalTrack: boolean[];
+  fascistTrack: boolean[];
+  nextPower: string;
+  drawPileAmount: number;
+  discardPileAmount: number;
+  electionTrack: boolean[];
+}
+
 export enum PartyMembership {
   Liberal,
   Fascist,
