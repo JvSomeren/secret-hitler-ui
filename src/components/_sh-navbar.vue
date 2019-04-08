@@ -117,6 +117,7 @@ export default class Navbar extends Vue {
     &-info {
       &__container {
         flex: 1;
+        align-self: flex-start;
       }
     }
   }

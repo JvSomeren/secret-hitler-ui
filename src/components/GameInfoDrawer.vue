@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div>
-      <span class="sh-game-info-open" @click="_open">Info</span>
+    <div class="sh-game-info-open" @click="_open">
+      <span class="sh-game-info-open-text">Info</span>
+      <Arrow class="sh-game-info-open-arrow" />
     </div>
 
     <section
@@ -18,7 +19,9 @@
                 class="sh-orb"
                 v-for="(n, index) in liberalTrack"
                 :key="index"
-                :class="{ 'sh-orb--active': n }"></div>
+                :class="{ 'sh-orb--active': n }">
+                <span>{{ index + 1 }}</span>
+              </div>
             </div>
           </div>
           <div class="sh-info-track sh-info-track-fascist">
@@ -29,13 +32,20 @@
                 class="sh-orb"
                 v-for="(n, index) in fascistTrack"
                 :key="index"
-                :class="{ 'sh-orb--active': n }"></div>
+                :class="{ 'sh-orb--active': n }">
+                <span>{{ index + 1 }}</span>
+                <Investigate v-if="!n && index === 0 && playerCount >= 9" />
+                <Investigate v-else-if="!n && index === 1 && playerCount >= 7" />
+                <PolicyPeek v-else-if="!n && index === 2 && playerCount <= 6" />
+                <SpecialElection v-else-if="!n && index === 2 && playerCount >= 7" />
+                <Execution v-else-if="!n && index === 3 || index === 4" />
+              </div>
             </div>
           </div>
         </div>
 
         <div class="sh-info-card-action">
-          <span>next card action</span>
+          <span>next fascist policy</span>
           <span class="sh-presidential-power">{{ nextPower }}</span>
         </div>
 
@@ -58,15 +68,18 @@
               class="sh-orb"
               v-for="(n, index) in electionTrack"
               :key="index"
-              :class="{ 'sh-orb--active': n }"></div>
+              :class="{ 'sh-orb--active': n }">{{ n ? '' : index }}</div>
           </div>
         </div>
       </div>
 
       <div class="sh-game-info-bottom">
-        <div style="flex: 4"></div>
+        <div class="sh-game-info-bottom-scoop-container">
+          <div class="sh-game-info-bottom-scoop"></div>
+        </div>
         <div @click="_close" class="sh-game-info-close">
           <span>close</span>
+          <Arrow class="sh-game-info-close-arrow" />
         </div>
       </div>
     </section>
@@ -77,11 +90,27 @@
 import {Component, Vue} from 'vue-property-decorator';
 import {namespace} from 'vuex-class';
 import {GameInfo} from '@/state/modules/Standalone/types';
+import Arrow from '@/assets/arrow-back.svg';
+import Investigate from '@/assets/investigate.svg';
+import SpecialElection from '@/assets/elect.svg';
+import PolicyPeek from '@/assets/peek.svg';
+import Execution from '@/assets/execute.svg';
 
 const ns = namespace('standalone');
 
-@Component({})
+@Component({
+  components: {
+    Arrow,
+    Investigate,
+    SpecialElection,
+    PolicyPeek,
+    Execution,
+  },
+})
 export default class GameInfoDrawer extends Vue {
+  @ns.State('playerCount')
+  private playerCount!: number;
+
   @ns.Getter('gameInfo')
   private gameInfo!: GameInfo;
 
@@ -128,8 +157,9 @@ export default class GameInfoDrawer extends Vue {
 <style scoped lang="scss">
   $bg-color: #434343;
   $bg-color-light: #F7E1C3;
-  $liberal-blue: #698176;
+  $liberal-blue: #557d84;
   $fascist-red: #f2654b;
+  $election-tracker-orb: #0e3067;
 
   .sh-game-info {
     position: fixed;
@@ -149,9 +179,43 @@ export default class GameInfoDrawer extends Vue {
 
     &-open,
     &-close {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      background-color: $bg-color;
+      color: #fff;
+      border-bottom-left-radius: 8px;
+
       cursor: pointer;
       outline: none;
       -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+
+      svg {
+        fill: #fff;
+        width: unset;
+        height: 18px;
+      }
+    }
+
+    &-open {
+      padding-top: 6px;
+      padding-bottom: 2px;
+      margin-left: 8px;
+
+      svg {
+        transform: rotate(-90deg);
+        margin-top: -6px;
+      }
+    }
+
+    &-close {
+      flex-direction: column-reverse;
+      padding-bottom: 4px;
+
+      svg {
+        transform: rotate(90deg);
+      }
     }
 
     &--active {
@@ -169,12 +233,13 @@ export default class GameInfoDrawer extends Vue {
 
       background-color: $bg-color;
       border-bottom-left-radius: 8px;
+      z-index: 1;
 
       .sh-orb-track {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
 
         &--horizontal {
@@ -182,6 +247,7 @@ export default class GameInfoDrawer extends Vue {
         }
 
         .sh-orb {
+          position: relative;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -189,7 +255,7 @@ export default class GameInfoDrawer extends Vue {
           width: 40px;
           border-radius: 50%;
 
-          background-color: lighten($bg-color, 20%);
+          background-color: lighten($bg-color, 10%);
 
           &--active:after {
             content: '';
@@ -197,6 +263,7 @@ export default class GameInfoDrawer extends Vue {
             height: 30px;
             width: 30px;
             border-radius: 50%;
+            box-shadow: 0 0 8px -2px #000;
           }
         }
       }
@@ -212,20 +279,48 @@ export default class GameInfoDrawer extends Vue {
 
         .sh-info-track {
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
+
+          > span {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            padding-left: 2px;
+            font-family: 'Courier', Courier, monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+
+          .sh-orb {
+            margin: 5px 0;
+
+            span {
+              font-family: 'Courier', Courier, monospace;
+              position: absolute;
+              right: -14px;
+            }
+
+            svg {
+              fill: rgba(#fff, 0.7);
+              width: unset;
+              height: 18px;
+            }
+          }
 
           &-liberal {
             .sh-orb:after {
-              background-color: $liberal-blue;
-            }
-
-            .sh-orb-track {
-              max-height: 80%;
-              margin: auto 0;
+              background-color: lighten($liberal-blue, 5%);
             }
           }
 
           &-fascist {
+            .sh-orb:nth-child(n+4) {
+              background-color: rgba($fascist-red, 0.5);
+
+              svg {
+                fill: rgba(#fff, 0.8);
+              }
+            }
+
             .sh-orb:after {
               background-color: $fascist-red;
             }
@@ -237,6 +332,18 @@ export default class GameInfoDrawer extends Vue {
         flex: 1;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+
+        span:first-child {
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .sh-presidential-power {
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 1.3;
+        }
       }
 
       &-piles {
@@ -245,27 +352,46 @@ export default class GameInfoDrawer extends Vue {
         .sh-info-pile {
           display: flex;
           flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
         .sh-pile-name {
-
+          text-transform: uppercase;
+          letter-spacing: 1px;
         }
 
         .sh-pile-amount {
+          font-size: 30px;
           font-weight: bold;
+          margin-top: 2px;
+          margin-left: -6px;
         }
       }
 
       &-election-tracker {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        span {
+          text-transform: uppercase;
+          font-weight: bold;
+          letter-spacing: 1px;
+        }
 
         .sh-orb-track {
-          max-width: 80%;
+          flex: 1;
           margin: 0 auto;
+
+          .sh-orb {
+            font-weight: bold;
+            margin: 0 12px;
+          }
         }
 
         .sh-orb:after {
-          background-color: purple;
+          background-color: $election-tracker-orb;
         }
       }
     }
@@ -293,6 +419,44 @@ export default class GameInfoDrawer extends Vue {
         span {
           margin-top: -3px;
         }
+      }
+
+      &-scoop-container {
+        flex: 4;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        align-self: stretch;
+      }
+
+      &-scoop {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        max-width: 16px;
+        min-height: 16px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          margin: -16px;
+          padding: 16px;
+          box-shadow: 0 0 0 40px $bg-color;
+          bottom: 0;
+          left: 0;
+        }
+      }
+
+      &:before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 8px;
+        align-self: flex-start;
+        margin-top: -8px;
+        background-color: rgba(0, 0, 0, 0.25);
+        position: absolute;
       }
     }
   }
