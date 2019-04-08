@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ShBack endPrompt>X Exit</ShBack>
-
     <section class="main">
       <template v-if="state === ChancellorDiscardPolicyState.PASS_DEVICE">
         <PassDevice
@@ -126,10 +124,6 @@ export default class ChancellorDiscardPolicy extends Vue {
 <style scoped lang="scss">
   h2 {
     text-align: center;
-  }
-
-  .main {
-    margin-top: 30px;
   }
 
   /deep/ .sh-card {

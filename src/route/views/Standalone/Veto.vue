@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ShBack endPrompt>X Exit</ShBack>
-
     <section class="main">
       <template v-if="state === VetoState.PASS_DEVICE">
         <PassDevice

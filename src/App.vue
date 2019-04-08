@@ -8,12 +8,13 @@
         @click="refreshApp">Refresh</span>
     </ShSnackbar>
 
+    <ShNavbar />
+
     <router-view />
   </main>
 </template>
 
 <script lang="ts">
-
 import {Component, Vue} from 'vue-property-decorator';
 import {Mutation} from 'vuex-class';
 
@@ -92,9 +93,11 @@ body {
 
   height: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .root-container {
+  flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;

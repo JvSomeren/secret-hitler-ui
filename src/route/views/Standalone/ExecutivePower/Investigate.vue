@@ -1,7 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <ShBack endPrompt>X Exit</ShBack>
-
     <ShHeaderLogo />
 
     <section class="main">

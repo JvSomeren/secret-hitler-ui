@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ShBack endPrompt>X Exit</ShBack>
-
     <ShHeaderLogo />
 
     <section class="main">
@@ -85,10 +83,6 @@ export default class Execute extends Vue {
 <style scoped lang="scss">
   h2 {
     text-align: center;
-  }
-
-  .main {
-    margin-top: 30px;
   }
 
   .sh-player-grid {

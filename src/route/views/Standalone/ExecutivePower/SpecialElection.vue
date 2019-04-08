@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ShBack endPrompt>X Exit</ShBack>
-
     <ShHeaderLogo />
 
     <section class="main">

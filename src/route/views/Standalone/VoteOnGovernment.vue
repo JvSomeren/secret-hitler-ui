@@ -1,9 +1,5 @@
 <template>
   <div>
-    <ShBack endPrompt>
-      X Exit
-    </ShBack>
-
     <section class="main">
       <div class="sh-president">
         <h3>President</h3>

@@ -1,7 +1,5 @@
 <template>
   <section>
-    <ShBack />
-
     <div class="sh-rules">
       <h3>OBJECTIVE</h3>
       <h3>SET UP</h3>

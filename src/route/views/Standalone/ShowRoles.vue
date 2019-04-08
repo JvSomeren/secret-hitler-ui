@@ -1,8 +1,5 @@
 <template>
   <section class="main">
-    <ShBack endPrompt>
-      X Exit
-    </ShBack>
 
     <div class="sh-player__header">
       <template v-if="state === ShowRoleState.PASS_DEVICE">

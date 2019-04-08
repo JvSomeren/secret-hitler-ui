@@ -3,8 +3,6 @@
     <ShHeaderLogo />
 
     <section class="main sh-lobby-player-names">
-      <ShBack />
-
       <h2>WHO'S PLAYING</h2>
       <div class="sh-player-names-list" ref="playerNamesContainer">
         <span

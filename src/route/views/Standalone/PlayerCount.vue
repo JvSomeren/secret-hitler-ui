@@ -3,8 +3,6 @@
     <ShHeaderLogo />
 
     <section class="main sh-lobby-player-count">
-      <ShBack />
-
       <div>
         <h2>NUMBER OF PLAYERS</h2>
         <div class="sh-player-numbers-grid">
