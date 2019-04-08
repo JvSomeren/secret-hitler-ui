@@ -103,6 +103,12 @@ export default class PresidentDiscardPolicy extends Vue {
 
   /deep/ .sh-card {
 
+    &-inner {
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+    }
+
     &.sh-card--active .sh-card-inner {
       transform: scale(1.05);
     }

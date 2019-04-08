@@ -151,6 +151,7 @@ export default class Investigate extends Vue {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    align-self: stretch;
 
     padding: 0 6px 0 6px;
   }

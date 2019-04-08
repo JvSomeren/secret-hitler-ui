@@ -61,6 +61,7 @@ export default class InitialPresident extends Vue {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-self: stretch;
 
     padding: 0 6px 0 6px;
   }

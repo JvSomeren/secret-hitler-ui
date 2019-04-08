@@ -109,6 +109,9 @@ export default class Back extends Vue {
     display: flex;
     align-items: center;
     font-family: 'Courier', Courier, monospace;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 
     svg {
       width: unset;

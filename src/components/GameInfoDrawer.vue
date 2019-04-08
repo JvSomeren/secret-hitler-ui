@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div @click="_toggle">info</div>
+    <div>
+      <span class="sh-game-info-open" @click="_open">Info</span>
+    </div>
 
     <section
       class="sh-game-info"
@@ -63,7 +65,7 @@
 
       <div class="sh-game-info-bottom">
         <div style="flex: 4"></div>
-        <div @click="_toggle" class="sh-game-info-close-button">
+        <div @click="_close" class="sh-game-info-close">
           <span>close</span>
         </div>
       </div>
@@ -109,6 +111,14 @@ export default class GameInfoDrawer extends Vue {
     return this.gameInfo.electionTrack;
   }
 
+  private _open() {
+    this.active = true;
+  }
+
+  private _close() {
+    this.active = false;
+  }
+
   private _toggle() {
     this.active = !this.active;
   }
@@ -136,6 +146,13 @@ export default class GameInfoDrawer extends Vue {
 
     transition: all 400ms ease-in-out;
     transform: translateY(-100%);
+
+    &-open,
+    &-close {
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+    }
 
     &--active {
       transform: translateY(0);
@@ -261,7 +278,7 @@ export default class GameInfoDrawer extends Vue {
       background-color: transparent;
       transition: background-color 400ms ease-in;
 
-      .sh-game-info-close-button {
+      .sh-game-info-close {
         position: relative;
         flex: 1;
         align-self: stretch;
