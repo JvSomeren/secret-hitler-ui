@@ -1,5 +1,7 @@
 <template>
   <div>
+    <ShHeaderLogo />
+
     <section class="main">
       <div class="sh-president">
         <h3>President</h3>
@@ -81,7 +83,12 @@ export default class VoteOnGovernment extends Vue {
     text-align: center;
   }
 
+  .sh-chancellor {
+    margin-top: 18px;
+  }
+
   .sh-instructions {
     font-family: 'Courier', Courier, monospace;
+    padding: 0 14px;
   }
 </style>
