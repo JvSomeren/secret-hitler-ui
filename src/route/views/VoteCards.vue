@@ -1,7 +1,5 @@
 <template>
   <section class="sh-vote-cards">
-    <ShBack />
-
     <VoteCard ja />
     <VoteCard nein />
   </section>
@@ -21,8 +19,8 @@ export default class VoteCards extends Vue {}
 
 <style scoped lang="scss">
   .sh-vote-cards {
+    flex: 1;
     width: 100%;
-    padding-top: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
