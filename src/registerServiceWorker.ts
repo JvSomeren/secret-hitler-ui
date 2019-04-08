@@ -19,8 +19,15 @@ if (process.env.NODE_ENV === 'production') {
     updatefound() {
       console.log('New content is downloading.');
     },
-    updated() {
+    updated(registration) {
       console.log('New content is available; please refresh.');
+
+      // Add a custom event and dispatch it.
+      // Used to display of a 'refresh' banner following a service worker update.
+      // Set the event payload to the service worker registration object.
+      document.dispatchEvent(
+        new CustomEvent('swUpdated', { detail: registration }),
+      );
     },
     offline() {
       console.log('No internet connection found. App is running in offline mode.');

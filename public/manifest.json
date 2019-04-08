@@ -1,6 +1,7 @@
 {
-  "name": "secret-hitler",
-  "short_name": "secret-hitler",
+  "name": "Secret Hitler",
+  "short_name": "Secret Hitler",
+  "description": "A mobile version of the game 'Secret Hitler'",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -15,6 +16,7 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "orientation": "portrait",
+  "background_color": "#F2654B",
+  "theme_color": "#FBB969"
 }
