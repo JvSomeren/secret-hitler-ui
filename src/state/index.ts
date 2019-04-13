@@ -4,6 +4,7 @@ import VuexPersistence from 'vuex-persist';
 
 // import modules from './modules';
 import {standalone} from './modules/Standalone';
+import {online} from './modules/Online';
 
 Vue.use(Vuex);
 
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
   },
   modules: {
     standalone,
+    online,
   },
   actions: {
     init() {
