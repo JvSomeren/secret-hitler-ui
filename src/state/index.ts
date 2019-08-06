@@ -17,7 +17,7 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     isOnline: true,
-    version: '1.0.0',
+    version: '1.0.1',
   },
   mutations: {
     RESTORE_MUTATION: vuexLocal.RESTORE_MUTATION,
