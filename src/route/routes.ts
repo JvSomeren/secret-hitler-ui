@@ -1,4 +1,4 @@
-import {StandaloneGuard} from './guards';
+import {OnlineGuard, StandaloneGuard} from './guards';
 import {NavbarBackType} from '@/route/types';
 
 const main = [
@@ -15,6 +15,18 @@ const main = [
         path: 'rules',
         name: 'rules',
         component: () => import(/* webpackChunkName: "rules" */ './views/Home/Rules.vue'),
+        meta: { navbar: { back: NavbarBackType.BACK, float: true } },
+      },
+      {
+        path: 'host',
+        name: 'host',
+        component: () => import(/* webpackChunkName: "base" */ './views/Home/Host.vue'),
+        meta: { navbar: { back: NavbarBackType.BACK, float: true } },
+      },
+      {
+        path: 'join',
+        name: 'join',
+        component: () => import(/* webpackChunkName: "base" */ './views/Home/Join.vue'),
         meta: { navbar: { back: NavbarBackType.BACK, float: true } },
       },
     ],
@@ -132,6 +144,13 @@ const main = [
         ],
       },
     ],
+  },
+  {
+    path: '/:id',
+    name: 'online',
+    beforeEnter: OnlineGuard,
+    component: () => import(/* webpackChunkName: "online" */ './views/Online.vue'),
+    children: [],
   },
 ];
 
