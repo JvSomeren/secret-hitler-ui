@@ -48,6 +48,7 @@ export const getters: GetterTree<StandaloneState, RootState> = {
       case GameStatus.EXECUTIVE_ACTION:
       case GameStatus.ENACT_TOP_POLICY:
       case GameStatus.GAME_END:
+      default:
         return '';
     }
   },

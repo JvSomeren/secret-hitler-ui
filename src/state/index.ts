@@ -4,6 +4,7 @@ import VuexPersistence from 'vuex-persist';
 
 // import modules from './modules';
 import {standalone} from './modules/Standalone';
+import {RootState} from '@/state/types';
 
 Vue.use(Vuex);
 
@@ -20,8 +21,8 @@ const store = new Vuex.Store({
   },
   mutations: {
     RESTORE_MUTATION: vuexLocal.RESTORE_MUTATION,
-    GO_ONLINE: (state) => state.isOnline = true,
-    GO_OFFLINE: (state) => state.isOnline = false,
+    GO_ONLINE: (state: RootState) => state.isOnline = true,
+    GO_OFFLINE: (state: RootState) => state.isOnline = false,
   },
   modules: {
     standalone,
@@ -30,7 +31,7 @@ const store = new Vuex.Store({
     init() {
       ['standalone'].forEach((module) => {
         store.dispatch(`${module}/init`)
-          .then((response) => {
+          .then((response: any) => {
             // create watchers
             if (response.hasOwnProperty('watchers')) {
               for (const watcher of response.watchers) {
@@ -42,7 +43,7 @@ const store = new Vuex.Store({
       });
     },
   },
-  plugins: [ vuexLocal.plugin ],
+  plugins: [ vuexLocal.plugin ] as any,
 });
 
 store.dispatch('init');
