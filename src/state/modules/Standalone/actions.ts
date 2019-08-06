@@ -179,6 +179,8 @@ export const actions: ActionTree<StandaloneState, RootState> = {
         });
       }
 
+      dispatch('passPresidency');
+
       dispatch('navigate', {
         routeName: 'standalone:nominateChancellor',
         status: GameStatus.NOMINATING_CHANCELLOR,
