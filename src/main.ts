@@ -4,6 +4,10 @@ import router from './route';
 import store from './state';
 import '@/components/_globals';
 import './registerServiceWorker';
+import VuePeerJS from '../../vue-peerjs';
+import $peer from '@/utils/peerjs-instance';
+
+Vue.use(VuePeerJS, $peer, {});
 
 Vue.config.productionTip = false;
 
