@@ -1,4 +1,5 @@
 const manifestJSON = require('./public/manifest');
+process.env.VUE_APP_VERSION = require('./package.json').version;
 
 module.exports = {
   pwa: {

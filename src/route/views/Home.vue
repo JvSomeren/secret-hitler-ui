@@ -19,8 +19,7 @@ import {State} from 'vuex-class';
   },
 })
 export default class Home extends Vue {
-  @State('version')
-  private version!: string;
+  private version = process.env.VUE_APP_VERSION;
 }
 </script>
 
