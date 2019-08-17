@@ -150,7 +150,14 @@ const main = [
     name: 'online',
     beforeEnter: OnlineGuard,
     component: () => import(/* webpackChunkName: "online" */ './views/Online.vue'),
-    children: [],
+    children: [
+      {
+        path: 'lobby',
+        name: 'online:lobby',
+        component: () => import(/* webpackChunckName: "online" */ './views/Online/Lobby.vue'),
+        meta: { navbar: { back: NavbarBackType.END_PROMPT, status: true, info: true } },
+      },
+    ],
   },
 ];
 
