@@ -4,12 +4,12 @@ import {RootState} from '@/state/types';
 import {actions} from './actions';
 import {getters} from './getters';
 import {mutations} from './mutations';
-import {GameStatus} from '@/state/modules/Standalone/types';
+import {GameStatus} from '@/state/modules/Online/types';
 
 export const state = (): OnlineState => {
   return {
     status: GameStatus.STOPPED,
-    view: 'standalone:playerCount',
+    view: 'online',
     game: {
       drawPile: [],
       discardPile: [],
@@ -28,6 +28,13 @@ export const state = (): OnlineState => {
     },
     playerCount: 0,
     players: [],
+    user: {
+      name: '',
+      peerId: null,
+      isHost: false,
+      player: null,
+    },
+    lobbyId: '',
   };
 };
 
