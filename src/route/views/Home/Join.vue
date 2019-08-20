@@ -60,6 +60,10 @@ export default class Join extends Vue {
     this.connectToLobby(this.lobbyId)
       .then((success: boolean) => this.disabled = success);
   }
+
+  private created() {
+    if (this.$route.query.hasOwnProperty('lobbyId')) this.lobbyId = this.$route.query.lobbyId as string;
+  }
 }
 </script>
 
