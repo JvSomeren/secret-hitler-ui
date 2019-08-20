@@ -155,7 +155,7 @@ const main = [
         path: 'lobby',
         name: 'online:lobby',
         component: () => import(/* webpackChunckName: "online" */ './views/Online/Lobby.vue'),
-        meta: { navbar: { back: NavbarBackType.END_PROMPT, status: true, info: true } },
+        meta: { navbar: { back: NavbarBackType.END_PROMPT, float: true } },
       },
     ],
   },
