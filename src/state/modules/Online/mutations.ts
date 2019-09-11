@@ -76,7 +76,7 @@ export const mutations: MutationTree<OnlineState> = {
   },
 
   [onlineMutations.updatePlayer](state, player: OnlinePlayer) {
-    //
+    state.players[player.id] = player;
   },
 
   [onlineMutations.setPlayers](state, players: OnlinePlayer[]) {

@@ -3,7 +3,9 @@ import {Game, Player} from '@/state/modules/Standalone/types';
 export enum OnlineEvents {
   UPDATE_VIEW = 'UPDATE_VIEW',
   UPDATE_PLAYER_NAME = 'UPDATE_PLAYER_NAME',
+  UPDATE_USER_ROLE = 'UPDATE_USER_ROLE',
   UPDATE_PLAYERS = 'UPDATE_PLAYERS',
+  UPDATE_PLAYER_ROLE = 'UPDATE_PLAYER_ROLE',
 }
 
 export enum GameStatus {

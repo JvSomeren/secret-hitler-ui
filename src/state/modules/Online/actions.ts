@@ -1,13 +1,10 @@
-import Vue from 'vue';
 import {ActionTree} from 'vuex';
-import {OnlineEvents, OnlinePlayer, OnlineState} from '@/state/modules/Online/types';
+import {GameStatus, OnlineEvents, OnlineState} from '@/state/modules/Online/types';
 import {RootState} from '@/state/types';
 import {onlineMutations} from '@/state/modules/Online/mutations';
 import $peer from '@/utils/peerjs-instance';
-import {GameStatus} from '@/state/modules/Online/types';
 import router from '@/route';
 import {Dictionary} from 'vue-router/types/router';
-import {online} from '@/state/modules/Online/index';
 import {
   Card,
   liberalFascistDistribution,
@@ -196,19 +193,39 @@ export const actions: ActionTree<OnlineState, RootState> = {
     // set player roles
     commit(onlineMutations.assignPlayerRoles,
       createPlayerRolesArray(liberalFascistDistribution[state.players.length]));
+    
+    for (const player of state.players) {
+      if (player.isHost) continue;
+
+      dispatch('sendToPeer', {
+        player,
+        data: {
+          event: OnlineEvents.UPDATE_USER_ROLE,
+          data: player,
+        },
+      });
+    }
 
     const navigateObject = {
       routeName: 'online:showRole',
       status: GameStatus.SHOWING_ROLES,
     };
 
-    // @TODO send specific role to specific user
-
     dispatch('sendToAllPeers', {
       event: OnlineEvents.UPDATE_VIEW,
       data: navigateObject,
     });
     dispatch('navigate', navigateObject);
+  },
+
+  sendToPeer({}, { player, data }) {
+    if (typeof $peer.connections[player.peer] === 'undefined') return;
+
+    const connection = $peer.connections[player.peer].find((con: any) => con.open);
+
+    if (typeof connection === 'undefined') return;
+
+    connection.send(data);
   },
 
   sendToAllPeers({ state }, data) {
@@ -227,22 +244,25 @@ export const actions: ActionTree<OnlineState, RootState> = {
   },
 
   data_data({ commit, dispatch }, { args, dataConnection }) {
-    const [ data ] = args;
+    const [ { event, data } ] = args;
 
-    switch (data.event) {
+    switch (event) {
       case OnlineEvents.UPDATE_VIEW:
-        dispatch('navigate', {
-          data,
-        });
+        dispatch('navigate', data);
+        break;
+      case OnlineEvents.UPDATE_USER_ROLE:
+        commit(onlineMutations.updateUserPlayer, data);
         break;
       case OnlineEvents.UPDATE_PLAYER_NAME:
         break;
       case OnlineEvents.UPDATE_PLAYERS:
-        commit(onlineMutations.setPlayers, data.players);
+        commit(onlineMutations.setPlayers, data);
+        break;
+      case OnlineEvents.UPDATE_PLAYER_ROLE:
+        commit(onlineMutations.updatePlayer, data);
         break;
       default:
-        const { event, ...payload } = data;
-        console.error('Unknown event', event, payload);
+        console.error('Unknown event', event, data);
         break;
     }
   },
@@ -263,7 +283,7 @@ export const actions: ActionTree<OnlineState, RootState> = {
 
     const data = {
       event: OnlineEvents.UPDATE_PLAYERS,
-      players,
+      data: players,
     };
 
     dataConnection.on('open', () => {
@@ -271,17 +291,5 @@ export const actions: ActionTree<OnlineState, RootState> = {
     });
 
     dispatch('sendToAllPeers', data);
-
-    // for (const player of players) {
-    //   if (player.peer === null) continue;
-    //   if (player.peer === dataConnection.peer) continue;
-    //   if (typeof $peer.connections[player.peer] === 'undefined') continue;
-    //
-    //   const connection = $peer.connections[player.peer].find((con: any) => con.open);
-    //
-    //   if (typeof connection === 'undefined') continue;
-    //
-    //   connection.send(data);
-    // }
   },
 };

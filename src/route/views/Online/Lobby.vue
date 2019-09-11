@@ -3,7 +3,7 @@
     <ShHeaderLogo />
 
     <section class="main">
-      <h2>LOBBY</h2>
+      <h2>LOBBY // {{ lobbyId }}</h2>
       <div class="sh-player-list" ref="playerContainer">
         <span
           v-if="showScrollHint"
@@ -18,7 +18,7 @@
       <ShButton
         v-if="isHost"
         class="sh-bottom"
-        :disabled="disabled"
+        :disabled="lobbyIsNotReady"
         @click.native="startRound">Go!</ShButton>
     </section>
   </div>
@@ -33,18 +33,32 @@ const online = namespace('online');
 
 @Component({})
 export default class Lobby extends Vue {
-  @online.State('players')
+  @online.Getter('allPlayers')
   private players!: OnlinePlayer[];
+
+  @online.State('lobbyId')
+  private lobbyId!: string;
 
   @online.State((state) => state.user.isHost)
   private isHost!: boolean;
+
+  @online.Action('startRound')
+  private startRoundAction!: () => void;
 
   private showScrollHint = false;
 
   private disabled = true;
 
+  get lobbyIsNotReady() {
+    // if (this.players.length < 5 || this.players.length > 10) return true;
+
+    return false;
+  }
+
   private startRound() {
-    //
+    if (this.lobbyIsNotReady) return;
+
+    this.startRoundAction();
   }
 
   private computeShowScrollHint() {
