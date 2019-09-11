@@ -98,6 +98,21 @@ export interface StandaloneState {
 
 export const liberalFascistDistribution: {
   [index: number]: {[index: number]: number}} = {
+  2: { // not available for normal games
+    [SecretRole.Liberal]: 1,
+    [SecretRole.Fascist]: 0,
+    [SecretRole.Hitler]: 1,
+  },
+  3: { // not available for normal games
+    [SecretRole.Liberal]: 1,
+    [SecretRole.Fascist]: 1,
+    [SecretRole.Hitler]: 1,
+  },
+  4: { // not available for normal games
+    [SecretRole.Liberal]: 1,
+    [SecretRole.Fascist]: 1,
+    [SecretRole.Hitler]: 1,
+  },
   5: {
     [SecretRole.Liberal]: 3,
     [SecretRole.Fascist]: 1,
