@@ -6,26 +6,24 @@ declare module 'vuex-map-fields' {
 
 
   export  class Store<S> {
+
+    public readonly state: S;
+    public readonly getters: any;
+
+    public dispatch: Dispatch;
+    public commit: Commit;
     constructor(options: StoreOptions<S>);
 
-    readonly state: S;
-    readonly getters: any;
+    public replaceState(state: S): void;
 
-    replaceState(state: S): void;
+    public subscribe<P extends MutationPayload>(fn: (mutation: P, state: S) => any): () => void;
+    public watch<T>(getter: (state: S) => T, cb: (value: T, oldValue: T) => void, options?: WatchOptions): () => void;
 
-    dispatch: Dispatch;
-    commit: Commit;
+    public registerModule<T>(path: string | string[], module: Module<T, S>, options?: ModuleOptions): void;
 
-    subscribe<P extends MutationPayload>(fn: (mutation: P, state: S) => any): () => void;
-    watch<T>(getter: (state: S) => T, cb: (value: T, oldValue: T) => void, options?: WatchOptions): () => void;
+    public unregisterModule(path: string | string[]): void;
 
-    registerModule<T>(path: string, module: Module<T, S>, options?: ModuleOptions): void;
-    registerModule<T>(path: string[], module: Module<T, S>, options?: ModuleOptions): void;
-
-    unregisterModule(path: string): void;
-    unregisterModule(path: string[]): void;
-
-    hotUpdate(options: {
+    public hotUpdate(options: {
       actions?: ActionTree<S, S>;
       mutations?: MutationTree<S>;
       getters?: GetterTree<S, S>;
@@ -77,7 +75,7 @@ declare module 'vuex-map-fields' {
     actions?: ActionTree<S, S>;
     mutations?: MutationTree<S>;
     modules?: ModuleTree<S>;
-    plugins?: Plugin<S>[];
+    plugins?: Array<Plugin<S>>;
     strict?: boolean;
   }
 
@@ -101,7 +99,7 @@ declare module 'vuex-map-fields' {
     modules?: ModuleTree<R>;
   }
 
-  export interface ModuleOptions{
+  export interface ModuleOptions {
     preserveState?: boolean;
   }
 
@@ -125,44 +123,30 @@ declare module 'vuex-map-fields' {
     Store: typeof Store;
     install: typeof install;
   };
-  type Dictionary<T> = { [key: string]: T };
+  interface Dictionary<T> { [key: string]: T; }
   type Computed = () => any;
   type MutationMethod = (...args: any[]) => void;
   type ActionMethod = (...args: any[]) => Promise<any>;
 
-  interface Mapper<R> {
-    (map: string[]): Dictionary<R>;
-    (map: Dictionary<string>): Dictionary<R>;
-  }
+  type Mapper<R> = (map: string[] | Dictionary<string>) => Dictionary<R>;
 
-  interface MapperWithNamespace<R> {
-    (namespace: string, map: string[]): Dictionary<R>;
-    (namespace: string, map: Dictionary<string>): Dictionary<R>;
-  }
+  type MapperWithNamespace<R> = (namespace: string, map: string[] | Dictionary<string>) => Dictionary<R>;
 
-  interface FunctionMapper<F, R> {
-    (map: Dictionary<(this: typeof _Vue, fn: F, ...args: any[]) => any>): Dictionary<R>;
-  }
+  type FunctionMapper<F, R> = (map: Dictionary<(this: typeof _Vue, fn: F, ...args: any[]) => any>) => Dictionary<R>;
 
-  interface FunctionMapperWithNamespace<F, R> {
-    (
+  type FunctionMapperWithNamespace<F, R> = (
       namespace: string,
       map: Dictionary<(this: typeof _Vue, fn: F, ...args: any[]) => any>,
-    ): Dictionary<R>;
-  }
+    ) => Dictionary<R>;
 
-  interface MapperForState {
-    <S>(
+  type MapperForState = <S>(
       map: Dictionary<(this: typeof _Vue, state: S, getters: any) => any>,
-    ): Dictionary<Computed>;
-  }
+    ) => Dictionary<Computed>;
 
-  interface MapperForStateWithNamespace {
-    <S>(
+  type MapperForStateWithNamespace = <S>(
       namespace: string,
       map: Dictionary<(this: typeof _Vue, state: S, getters: any) => any>,
-    ): Dictionary<Computed>;
-  }
+    ) => Dictionary<Computed>;
 
   interface NamespacedMappers {
     mapState: Mapper<Computed> & MapperForState;
